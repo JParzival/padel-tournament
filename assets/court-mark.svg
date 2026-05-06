@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pista de padel">
+  <rect x="8" y="6" width="48" height="52" rx="5" fill="#587d66"/>
+  <rect x="12" y="10" width="40" height="44" rx="2" fill="none" stroke="#f8fbfa" stroke-width="3"/>
+  <path d="M32 10v44M12 24h40M12 40h40" fill="none" stroke="#f8fbfa" stroke-width="2.5"/>
+  <path d="M12 18h13v28H12M52 18H39v28h13" fill="none" stroke="#dce4e1" stroke-width="2"/>
+  <circle cx="32" cy="32" r="3" fill="#f4c95d"/>
+</svg>

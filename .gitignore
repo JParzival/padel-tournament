@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Local runtime files
+*.log
+dev-server.out.log
+dev-server.err.log
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test and coverage output
+coverage/
+.nyc_output/
+
+# Temporary browser profiles
+.browser-profile*/
+
+# Environment files
+.env
+.env.*
+!.env.example

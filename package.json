@@ -1,0 +1,14 @@
+{
+  "name": "padel-tournament-control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static web app for managing padel tournaments, group stages and knockout brackets.",
+  "scripts": {
+    "start": "node dev-server.js",
+    "test": "node --test",
+    "check": "node --check app.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

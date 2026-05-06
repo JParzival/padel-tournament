@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control de Torneo de Padel</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/court-mark.svg" alt="" class="brand-mark" />
+          <div>
+            <p class="eyebrow">Panel de torneo</p>
+            <h1>Control de Torneo de Padel</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="language-switch" aria-label="Idioma">
+            <button class="language-button active" type="button" data-action="set-lang" data-lang="es">
+              ES
+            </button>
+            <button class="language-button" type="button" data-action="set-lang" data-lang="en">
+              EN
+            </button>
+          </div>
+          <div class="mode-switch" aria-label="Cambiar modo">
+            <button class="mode-button active" type="button" data-mode="admin">
+              Administracion
+            </button>
+            <button class="mode-button" type="button" data-mode="public">
+              Vista publica
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <nav id="sectionNav" class="section-nav" aria-label="Secciones"></nav>
+          <div class="data-tools">
+            <button class="ghost-button" type="button" data-action="export-data">
+              Exportar datos
+            </button>
+            <label class="ghost-button file-label">
+              Importar datos
+              <input id="importFile" type="file" accept="application/json" />
+            </label>
+          </div>
+        </aside>
+
+        <main id="app" class="main-panel" aria-live="polite"></main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
