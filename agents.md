@@ -1,19 +1,22 @@
 ## Coding rules
-- Haz cambios mínimos y localizados.
-- No cambies arquitectura sin justificarlo antes.
-- Mantén funciones pequeñas y testeables.
-- No introduzcas dependencias nuevas salvo que sea necesario y lo expliques.
-- No escribas secretos, tokens ni credenciales.
-- Si modificas lógica, añade o actualiza tests.
-- Si hay ambigüedad, pregunta o propone alternativas antes de implementar.
-- Realiza pequeñas explicaciones de las funciones que implementas, que ayuden a mantener el código, en el propio código.
+
+- Make small, localized changes.
+- Do not change the architecture without justifying it first.
+- Keep functions small and testable.
+- Do not add new dependencies unless they are necessary, and explain why when you do.
+- Do not write secrets, tokens, or credentials.
+- If you modify logic, add or update tests.
+- If there is ambiguity, ask or propose alternatives before implementing.
+- Add brief explanations for implemented functions when they help maintain the code.
 
 ## Definition of done
-Antes de terminar:
-1. Explica qué has cambiado.
-2. Actualiza tests de código si es necesario.
-3. Ejecuta tests relevantes si es posible.
-4. Ejecuta lint/typecheck si aplica.
-5. Resume riesgos residuales.
-6. Lista archivos modificados.
-7. Si es necesario, actualiza el README.md
+
+Before finishing:
+
+1. Explain what changed.
+2. Update code tests if necessary.
+3. Run relevant tests when possible.
+4. Run lint/typecheck when applicable.
+5. Summarize residual risks.
+6. List modified files.
+7. Update `README.md` if necessary.

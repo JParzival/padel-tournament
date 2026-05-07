@@ -1,12 +1,12 @@
-const STORAGE_KEY = "padelTournamentControl.v1";
+﻿const STORAGE_KEY = "padelTournamentControl.v1";
 const LANG_STORAGE_KEY = "padelTournamentControl.lang";
 
 const UI_COPY = {
   es: {
     appEyebrow: "Panel de torneos",
     appTitle: "Control de Torneos de Raqueta",
-    adminMode: "Administracion",
-    publicMode: "Vista publica",
+    adminMode: "Administración",
+    publicMode: "Vista pública",
     exportData: "Exportar datos",
     importData: "Importar datos",
   },
@@ -25,8 +25,8 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Panel de torneo": "Tournament panel",
     "Control de Torneos de Raqueta": "Racket Sports Tournament Control",
     "Control de Torneo de Padel": "Racket Sports Tournament Control",
-    Administracion: "Admin",
-    "Vista publica": "Public view",
+    Administración: "Admin",
+    "Vista pública": "Public view",
     Resumen: "Overview",
     Equipos: "Teams",
     Competiciones: "Competitions",
@@ -37,25 +37,25 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Exportar datos": "Export data",
     "Importar datos": "Import data",
     "Resumen del torneo": "Tournament overview",
-    "Gestiona equipos, fases de grupos, resultados y cuadros eliminatorios desde un unico panel.":
+    "Gestiona equipos, fases de grupos, resultados y cuadros eliminatorios desde un único panel.":
       "Manage teams, group stages, results and knockout brackets from one panel.",
     "Equipos registrados": "Registered teams",
     "Competiciones creadas": "Competitions created",
     "Partidos con resultado": "Matches with results",
-    "Sin competicion seleccionada": "No competition selected",
-    "Categoria sin especificar": "Unspecified category",
+    "Sin competición seleccionada": "No competition selected",
+    "Categoría sin especificar": "Unspecified category",
     "Fase de grupos creada": "Group stage created",
     "Cuadro creado": "Bracket created",
-    "Crea una competicion para empezar a organizar los equipos.": "Create a competition to start organizing teams.",
+    "Crea una competición para empezar a organizar los equipos.": "Create a competition to start organizing teams.",
     "Siguiente paso recomendado": "Recommended next step",
     "Da de alta los primeros equipos con sus jugadores.": "Register the first teams with their players.",
-    "Crea una competicion y asignale los equipos inscritos.": "Create a competition and assign registered teams.",
-    "Genera los grupos para crear automaticamente los partidos de liga.": "Generate the groups to automatically create round-robin matches.",
-    "Cuando tengas clasificaciones, genera el cuadro eliminatorio desde la seccion Eliminatorias.":
+    "Crea una competición y asígnale los equipos inscritos.": "Create a competition and assign registered teams.",
+    "Genera los grupos para crear automáticamente los partidos de liga.": "Generate the groups to automatically create round-robin matches.",
+    "Cuando tengas clasificaciones, genera el cuadro eliminatorio desde la sección Eliminatorias.":
       "Once standings are available, generate the knockout bracket from the Knockout section.",
-    "El torneo ya tiene estructura completa. Actualiza resultados y revisa la vista publica.":
+    "El torneo ya tiene estructura completa. Actualiza resultados y revisa la vista pública.":
       "The tournament structure is complete. Update results and review the public view.",
-    "Accesos rapidos": "Quick links",
+    "Accesos rápidos": "Quick links",
     "Alta y control de equipos participantes con listado de jugadores.": "Register and manage participating teams and their players.",
     "Nuevo equipo": "New team",
     "Nombre del equipo": "Team name",
@@ -66,68 +66,68 @@ const TEXT_TRANSLATIONS_ES_EN = {
     total: "total",
     Eliminar: "Delete",
     "Sin jugadores": "No players",
-    "Todavia no hay equipos": "There are no teams yet",
-    "Crea el primer equipo para poder inscribirlo en una competicion.": "Create the first team so it can be entered in a competition.",
+    "Todavía no hay equipos": "There are no teams yet",
+    "Crea el primer equipo para poder inscribirlo en una competición.": "Create the first team so it can be entered in a competition.",
     "Crea competiciones, asigna equipos inscritos y deja preparada la fase de grupos.":
       "Create competitions, assign registered teams and prepare the group stage.",
-    "Nueva competicion": "New competition",
+    "Nueva competición": "New competition",
     Nombre: "Name",
-    Categoria: "Category",
-    "Numero de grupos": "Number of groups",
-    "Crear competicion": "Create competition",
+    Categoría: "Category",
+    "Número de grupos": "Number of groups",
+    "Crear competición": "Create competition",
     Seleccionar: "Select",
     Seleccionada: "Selected",
     "Sin competiciones": "No competitions",
-    "Crea una competicion para agrupar equipos y resultados.": "Create a competition to group teams and results.",
-    "Sin categoria": "No category",
+    "Crea una competición para agrupar equipos y resultados.": "Create a competition to group teams and results.",
+    "Sin categoría": "No category",
     "grupos previstos": "planned groups",
-    "Selecciona o crea una competicion": "Select or create a competition",
-    "Cuando exista una competicion podras asignarle equipos.": "Once a competition exists, you can assign teams to it.",
+    "Selecciona o crea una competición": "Select or create a competition",
+    "Cuando exista una competición podrás asignarle equipos.": "Once a competition exists, you can assign teams to it.",
     "No hay equipos disponibles": "No teams available",
-    "Da de alta equipos antes de asignarlos a una competicion.": "Register teams before assigning them to a competition.",
-    "Marca los equipos que entran en esta competicion. Al generar grupos se repartiran automaticamente.":
+    "Da de alta equipos antes de asignarlos a una competición.": "Register teams before assigning them to a competition.",
+    "Marca los equipos que entran en esta competición. Al generar grupos se repartirán automáticamente.":
       "Select the teams entering this competition. When groups are generated, teams will be distributed automatically.",
-    "Guardar asignacion": "Save assignment",
+    "Guardar asignación": "Save assignment",
     "Fase de grupos": "Group stage",
-    "Selecciona una competicion para ver sus grupos.": "Select a competition to view its groups.",
-    "Sin competicion": "No competition",
-    "Todavia no hay competiciones creadas.": "No competitions have been created yet.",
+    "Selecciona una competición para ver sus grupos.": "Select a competition to view its groups.",
+    "Sin competición": "No competition",
+    "Todavía no hay competiciones creadas.": "No competitions have been created yet.",
     "Consulta grupos, resultados y clasificaciones actualizadas.": "View groups, results and updated standings.",
     "Genera partidos de liga, apunta resultados y revisa clasificaciones calculadas.":
       "Generate round-robin matches, enter results and review calculated standings.",
     "Generar grupos y partidos": "Generate groups and matches",
-    "Asigna al menos dos equipos a la competicion para generar partidos.": "Assign at least two teams to the competition to generate matches.",
-    "Generar grupos reparte equipos y crea todos los cruces de liga. Si ya habia resultados, se pedira confirmacion antes de sobrescribir.":
+    "Asigna al menos dos equipos a la competición para generar partidos.": "Assign at least two teams to the competition to generate matches.",
+    "Generar grupos reparte equipos y crea todos los cruces de liga. Si ya había resultados, se pedirá confirmación antes de sobrescribir.":
       "Generating groups distributes teams and creates all round-robin matches. If results already exist, confirmation will be requested before overwriting.",
     "Grupos pendientes": "Groups pending",
-    "La organizacion aun no ha publicado la fase de grupos.": "The organizer has not published the group stage yet.",
+    "La organización aún no ha publicado la fase de grupos.": "The organizer has not published the group stage yet.",
     "Genera los grupos cuando tengas los equipos asignados.": "Generate the groups once teams are assigned.",
     "Cuadro eliminatorio": "Knockout bracket",
-    "Selecciona una competicion para ver su cuadro.": "Select a competition to view its bracket.",
+    "Selecciona una competición para ver su cuadro.": "Select a competition to view its bracket.",
     "Consulta el cuadro y el avance de cada ronda.": "View the bracket and round progression.",
-    "Genera el cuadro desde la clasificacion de grupos y apunta resultados de eliminatoria.":
+    "Genera el cuadro desde la clasificación de grupos y apunta resultados de eliminatoria.":
       "Generate the bracket from group standings and enter knockout results.",
     "Generar cuadro": "Generate bracket",
-    "Se empareja el mejor de un grupo contra el peor clasificado de otro, el segundo contra el penultimo y asi sucesivamente. Con mas de dos grupos, el grupo rival se elige aleatoriamente.":
+    "Se empareja el mejor de un grupo contra el peor clasificado de otro, el segundo contra el penúltimo y así sucesivamente. Con más de dos grupos, el grupo rival se elige aleatoriamente.":
       "The best player/team from one group is paired with the lowest-ranked qualifier from another, second with second-lowest, and so on. With more than two groups, the rival group is selected at random.",
     "Clasificados por grupo": "Qualifiers per group",
     "Generar eliminatoria": "Generate knockout",
     "Imprimir / PDF": "Print / PDF",
-    "PDF multipagina": "Multipage PDF",
+    "PDF multipágina": "Multipage PDF",
     "Imprimir cuadro o guardarlo como PDF": "Print bracket or save it as PDF",
-    "Preparar PDF multipagina para cuadros grandes": "Prepare a multipage PDF for large brackets",
+    "Preparar PDF multipágina para cuadros grandes": "Prepare a multipage PDF for large brackets",
     "No hay cuadro para exportar": "There is no bracket to export",
-    "Preparando impresion del cuadro": "Preparing bracket print",
-    "Preparando PDF multipagina": "Preparing multipage PDF",
-    "Pagina": "Page",
+    "Preparando impresión del cuadro": "Preparing bracket print",
+    "Preparando PDF multipágina": "Preparing multipage PDF",
+    "Página": "Page",
     "de": "of",
     "Rondas": "Rounds",
     "Cuadro eliminatorio": "Knockout bracket",
-    "Despues de generar el cuadro puedes arrastrar equipos en la primera ronda para ajustar cruces manualmente.":
+    "Después de generar el cuadro puedes arrastrar equipos en la primera ronda para ajustar cruces manualmente.":
       "After generating the bracket, you can drag teams in the first round to adjust match-ups manually.",
     "Primero genera la fase de grupos para obtener clasificados.": "First generate the group stage to get qualifiers.",
     "Cuadro pendiente": "Bracket pending",
-    "La organizacion aun no ha publicado la eliminatoria.": "The organizer has not published the knockout bracket yet.",
+    "La organización aún no ha publicado la eliminatoria.": "The organizer has not published the knockout bracket yet.",
     "Genera el cuadro cuando tengas clasificaciones.": "Generate the bracket once standings are available.",
     Finalizado: "Finished",
     Pendiente: "Pending",
@@ -140,20 +140,20 @@ const TEXT_TRANSLATIONS_ES_EN = {
     Final: "Final",
     Semifinales: "Semifinals",
     Cuartos: "Quarterfinals",
-    "Vista publica": "Public view",
-    "Panel de consulta para jugadores y publico, sin controles de edicion.":
+    "Vista pública": "Public view",
+    "Panel de consulta para jugadores y público, sin controles de edición.":
       "Read-only panel for players and spectators.",
     "Rondas de cuadro": "Bracket rounds",
     "Sin competiciones publicadas": "No published competitions",
-    "Cuando la administracion cree una competicion aparecera aqui.": "When the admin creates a competition, it will appear here.",
-    "Copia de seguridad, restauracion y datos de ejemplo para pruebas.": "Backups, restore and sample data for testing.",
+    "Cuando la administración cree una competición aparecerá aquí.": "When the admin creates a competition, it will appear here.",
+    "Copia de seguridad, restauración y datos de ejemplo para pruebas.": "Backups, restore and sample data for testing.",
     Copias: "Backups",
-    "Los datos se guardan automaticamente en este navegador. Exporta un JSON para conservar una copia o moverlo a otro equipo.":
+    "Los datos se guardan automáticamente en este navegador. Exporta un JSON para conservar una copia o moverlo a otro equipo.":
       "Data is saved automatically in this browser. Export a JSON file to keep a backup or move it to another device.",
     "Exportar JSON": "Export JSON",
     "Importar JSON": "Import JSON",
     Pruebas: "Testing",
-    "Carga equipos, grupos y un cuadro de ejemplo para revisar la aplicacion rapidamente.":
+    "Carga equipos, grupos y un cuadro de ejemplo para revisar la aplicación rápidamente.":
       "Load teams, groups and a sample bracket to review the app quickly.",
     "Cargar ejemplo": "Load sample",
     Reiniciar: "Reset",
@@ -163,10 +163,10 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "El equipo necesita nombre y jugadores": "The team needs a name and players",
     "Equipo guardado": "Team saved",
     "Equipo eliminado": "Team deleted",
-    "La competicion necesita nombre": "The competition needs a name",
-    "Competicion creada": "Competition created",
-    "Competicion eliminada": "Competition deleted",
-    "Asignacion guardada": "Assignment saved",
+    "La competición necesita nombre": "The competition needs a name",
+    "Competición creada": "Competition created",
+    "Competición eliminada": "Competition deleted",
+    "Asignación guardada": "Assignment saved",
     "Grupos generados": "Groups generated",
     "Resultado actualizado": "Result updated",
     "Resultado limpiado": "Result cleared",
@@ -176,18 +176,18 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Datos importados": "Data imported",
     "Datos borrados": "Data deleted",
     "Ejemplo cargado": "Sample loaded",
-    "Exportacion preparada": "Export ready",
+    "Exportación preparada": "Export ready",
     "No se pudo mover el equipo": "The team could not be moved",
     "Hacen falta al menos dos clasificados": "At least two qualifiers are required",
     "No se pudo importar el archivo": "The file could not be imported",
-    "Cambiar equipos no borra automaticamente los grupos existentes, pero puede dejarlos desactualizados. Guardar igualmente?":
+    "Cambiar equipos no borra automáticamente los grupos existentes, pero puede dejarlos desactualizados. ¿Guardar igualmente?":
       "Changing teams does not automatically delete existing groups, but may leave them outdated. Save anyway?",
-    "Esto sustituira grupos, partidos y eliminatoria de esta competicion. Continuar?":
+    "Esto sustituirá grupos, partidos y eliminatoria de esta competición. ¿Continuar?":
       "This will replace groups, matches and the knockout bracket for this competition. Continue?",
-    "Esto sustituira el cuadro eliminatorio actual. Continuar?": "This will replace the current knockout bracket. Continue?",
-    "Borrar todos los equipos, competiciones y resultados guardados?": "Delete all saved teams, competitions and results?",
-    "Esto sustituira los datos actuales por un ejemplo. Continuar?": "This will replace the current data with sample data. Continue?",
-    "Seleccionar competicion": "Select competition",
+    "Esto sustituirá el cuadro eliminatorio actual. ¿Continuar?": "This will replace the current knockout bracket. Continue?",
+    "¿Borrar todos los equipos, competiciones y resultados guardados?": "Delete all saved teams, competitions and results?",
+    "Esto sustituirá los datos actuales por un ejemplo. ¿Continuar?": "This will replace the current data with sample data. Continue?",
+    "Seleccionar competición": "Select competition",
     "Por definir": "To be decided",
     "Equipo eliminado": "Deleted team",
     "Bye": "Bye",
@@ -196,8 +196,8 @@ const TEXT_TRANSLATIONS_ES_EN = {
 const PLACEHOLDER_TRANSLATIONS = {
   en: {
     "Ej. Smash Center A": "E.g. Smash Center A",
-    "Un jugador por linea, o separados por coma": "One player per line, or comma-separated",
-    "Telefono, observaciones, disponibilidad...": "Phone, notes, availability...",
+    "Un jugador por línea, o separados por coma": "One player per line, or comma-separated",
+    "Teléfono, observaciones, disponibilidad...": "Phone, notes, availability...",
     "Ej. Liga Primavera 2026": "E.g. Spring League 2026",
     "Ej. Masculina 3a, Mixta, Femenina...": "E.g. Men's 3rd, Mixed, Women's...",
   },
@@ -469,7 +469,7 @@ function translateGeneratedText(text) {
     if (text.startsWith("Match ")) return text.replace("Match ", "Partido ");
     if (text.startsWith("Winner of match ")) return text.replace("Winner of match ", "Ganador partido ");
     if (text.startsWith("Delete ") && text.endsWith(" and all its results?")) {
-      return text.replace(/^Delete "(.+)" and all its results\?$/, 'Eliminar "$1" y todos sus resultados?');
+      return text.replace(/^Delete "(.+)" and all its results\?$/, '¿Eliminar "$1" y todos sus resultados?');
     }
 
     return "";
@@ -500,12 +500,12 @@ function translateGeneratedText(text) {
   if (text.startsWith("Avanza ")) return text.replace("Avanza ", "Advances: ");
   if (text.startsWith("Partido ")) return text.replace("Partido ", "Match ");
   if (text.startsWith("Ganador partido ")) return text.replace("Ganador partido ", "Winner of match ");
-  if (text.startsWith("Eliminar ") && text.endsWith(" y todos sus resultados?")) {
-    return text.replace(/^Eliminar "(.+)" y todos sus resultados\?$/, 'Delete "$1" and all its results?');
+  if (text.startsWith("¿Eliminar ") && text.endsWith(" y todos sus resultados?")) {
+    return text.replace(/^¿Eliminar "(.+)" y todos sus resultados\?$/, 'Delete "$1" and all its results?');
   }
-  if (text.includes("esta inscrito en competiciones")) {
+  if (text.includes("está inscrito en competiciones")) {
     return text.replace(
-      /^"(.+)" esta inscrito en competiciones\. Al eliminarlo se quitara tambien de grupos y cuadros\. Continuar\?$/,
+      /^"(.+)" está inscrito en competiciones\. Al eliminarlo se quitará también de grupos y cuadros\. ¿Continuar\?$/,
       '"$1" is entered in competitions. Deleting it will also remove it from groups and brackets. Continue?',
     );
   }
@@ -624,7 +624,7 @@ function renderDashboard() {
   return `
     ${sectionHeader(
       "Resumen del torneo",
-      "Gestiona equipos, fases de grupos, resultados y cuadros eliminatorios desde un unico panel.",
+      "Gestiona equipos, fases de grupos, resultados y cuadros eliminatorios desde un único panel.",
       renderCompetitionSelect("competitionSelect"),
     )}
     <div class="grid three">
@@ -644,17 +644,17 @@ function renderDashboard() {
 
     <div class="grid two" style="margin-top: 16px">
       <section class="panel">
-        <h2>${selected ? escapeHtml(selected.name) : "Sin competicion seleccionada"}</h2>
+        <h2>${selected ? escapeHtml(selected.name) : "Sin competición seleccionada"}</h2>
         ${
           selected
             ? `
-              <p class="status-line">${escapeHtml(selected.category || "Categoria sin especificar")} - ${selected.teamIds.length} equipos - ${selected.groups.length} grupos</p>
+              <p class="status-line">${escapeHtml(selected.category || "Categoría sin especificar")} - ${selected.teamIds.length} equipos - ${selected.groups.length} grupos</p>
               <div class="tag-row">
                 <span class="tag">${selected.groups.length ? "Fase de grupos creada" : "Grupos pendientes"}</span>
                 <span class="tag">${selected.knockout.rounds.length ? "Cuadro creado" : "Cuadro pendiente"}</span>
               </div>
             `
-            : `<p class="status-line">Crea una competicion para empezar a organizar los equipos.</p>`
+            : `<p class="status-line">Crea una competición para empezar a organizar los equipos.</p>`
         }
       </section>
       <section class="court-strip" aria-hidden="true"></section>
@@ -666,7 +666,7 @@ function renderDashboard() {
         ${renderNextStep(selected)}
       </section>
       <section class="panel">
-        <h2>Accesos rapidos</h2>
+        <h2>Accesos rápidos</h2>
         <div class="toolbar">
           <button class="ghost-button" type="button" data-section="teams">Equipos</button>
           <button class="ghost-button" type="button" data-section="competitions">Competiciones</button>
@@ -683,18 +683,18 @@ function renderNextStep(competition) {
     return `<p class="status-line">Da de alta los primeros equipos con sus jugadores.</p>`;
   }
   if (!competition) {
-    return `<p class="status-line">Crea una competicion y asignale los equipos inscritos.</p>`;
+    return `<p class="status-line">Crea una competición y asígnale los equipos inscritos.</p>`;
   }
   if (!competition.teamIds.length) {
     return `<p class="status-line">Asigna equipos a ${escapeHtml(competition.name)} desde Competiciones.</p>`;
   }
   if (!competition.groups.length) {
-    return `<p class="status-line">Genera los grupos para crear automaticamente los partidos de liga.</p>`;
+    return `<p class="status-line">Genera los grupos para crear automáticamente los partidos de liga.</p>`;
   }
   if (!competition.knockout.rounds.length) {
-    return `<p class="status-line">Cuando tengas clasificaciones, genera el cuadro eliminatorio desde la seccion Eliminatorias.</p>`;
+    return `<p class="status-line">Cuando tengas clasificaciones, genera el cuadro eliminatorio desde la sección Eliminatorias.</p>`;
   }
-  return `<p class="status-line">El torneo ya tiene estructura completa. Actualiza resultados y revisa la vista publica.</p>`;
+  return `<p class="status-line">El torneo ya tiene estructura completa. Actualiza resultados y revisa la vista pública.</p>`;
 }
 
 function renderTeams() {
@@ -710,11 +710,11 @@ function renderTeams() {
           </div>
           <div class="field">
             <label for="teamPlayers">Jugadores</label>
-            <textarea id="teamPlayers" name="players" placeholder="Un jugador por linea, o separados por coma" required></textarea>
+            <textarea id="teamPlayers" name="players" placeholder="Un jugador por línea, o separados por coma" required></textarea>
           </div>
           <div class="field">
             <label for="teamNotes">Notas internas</label>
-            <textarea id="teamNotes" name="notes" placeholder="Telefono, observaciones, disponibilidad..."></textarea>
+            <textarea id="teamNotes" name="notes" placeholder="Teléfono, observaciones, disponibilidad..."></textarea>
           </div>
           <button class="primary-button" type="submit">Guardar equipo</button>
         </form>
@@ -728,7 +728,7 @@ function renderTeams() {
         ${
           state.teams.length
             ? `<div class="list">${state.teams.map(renderTeamCard).join("")}</div>`
-            : emptyState("Todavia no hay equipos", "Crea el primer equipo para poder inscribirlo en una competicion.")
+            : emptyState("Todavía no hay equipos", "Crea el primer equipo para poder inscribirlo en una competición.")
         }
       </section>
     </div>
@@ -759,21 +759,21 @@ function renderCompetitions() {
     )}
     <div class="grid two">
       <section class="panel">
-        <h2>Nueva competicion</h2>
+        <h2>Nueva competición</h2>
         <form id="competitionForm" class="form-grid">
           <div class="field">
             <label for="competitionName">Nombre</label>
             <input id="competitionName" name="name" placeholder="Ej. Liga Primavera 2026" required />
           </div>
           <div class="field">
-            <label for="competitionCategory">Categoria</label>
+            <label for="competitionCategory">Categoría</label>
             <input id="competitionCategory" name="category" placeholder="Ej. Masculina 3a, Mixta, Femenina..." />
           </div>
           <div class="field">
-            <label for="competitionGroups">Numero de grupos</label>
+            <label for="competitionGroups">Número de grupos</label>
             <input id="competitionGroups" name="groupCount" type="number" min="1" max="16" value="2" required />
           </div>
-          <button class="primary-button" type="submit">Crear competicion</button>
+          <button class="primary-button" type="submit">Crear competición</button>
         </form>
       </section>
 
@@ -785,7 +785,7 @@ function renderCompetitions() {
         ${
           state.competitions.length
             ? `<div class="list">${state.competitions.map(renderCompetitionCard).join("")}</div>`
-            : emptyState("Sin competiciones", "Crea una competicion para agrupar equipos y resultados.")
+            : emptyState("Sin competiciones", "Crea una competición para agrupar equipos y resultados.")
         }
       </section>
     </div>
@@ -794,7 +794,7 @@ function renderCompetitions() {
       ${
         selected
           ? renderTeamAssignment(selected)
-          : emptyState("Selecciona o crea una competicion", "Cuando exista una competicion podras asignarle equipos.")
+          : emptyState("Selecciona o crea una competición", "Cuando exista una competición podrás asignarle equipos.")
       }
     </div>
   `;
@@ -808,7 +808,7 @@ function renderCompetitionCard(competition) {
         <h3>${escapeHtml(competition.name)}</h3>
         <span class="tag">${competition.teamIds.length} equipos</span>
       </div>
-      <p class="meta">${escapeHtml(competition.category || "Sin categoria")} - ${competition.groupCount} grupos previstos</p>
+      <p class="meta">${escapeHtml(competition.category || "Sin categoría")} - ${competition.groupCount} grupos previstos</p>
       <div class="toolbar" style="margin-top: 12px">
         <button class="${isSelected ? "primary-button" : "ghost-button"}" type="button" data-action="select-competition" data-id="${competition.id}">
           ${isSelected ? "Seleccionada" : "Seleccionar"}
@@ -827,10 +827,10 @@ function renderTeamAssignment(competition) {
       <div class="section-header">
         <div>
           <h2>Equipos en ${escapeHtml(competition.name)}</h2>
-          <p>Marca los equipos que entran en esta competicion. Al generar grupos se repartiran automaticamente.</p>
+          <p>Marca los equipos que entran en esta competición. Al generar grupos se repartirán automáticamente.</p>
         </div>
         <button class="primary-button" type="button" data-action="save-team-assignment" data-competition-id="${competition.id}">
-          Guardar asignacion
+          Guardar asignación
         </button>
       </div>
       ${
@@ -849,7 +849,7 @@ function renderTeamAssignment(competition) {
                 .join("")}
             </div>
           `
-          : emptyState("No hay equipos disponibles", "Da de alta equipos antes de asignarlos a una competicion.")
+          : emptyState("No hay equipos disponibles", "Da de alta equipos antes de asignarlos a una competición.")
       }
     </section>
   `;
@@ -860,8 +860,8 @@ function renderGroupStage(readOnly) {
 
   if (!competition) {
     return `
-      ${sectionHeader(readOnly ? "Grupos" : "Fase de grupos", "Selecciona una competicion para ver sus grupos.")}
-      ${emptyState("Sin competicion", "Todavia no hay competiciones creadas.")}
+      ${sectionHeader(readOnly ? "Grupos" : "Fase de grupos", "Selecciona una competición para ver sus grupos.")}
+      ${emptyState("Sin competición", "Todavía no hay competiciones creadas.")}
     `;
   }
 
@@ -889,8 +889,8 @@ function renderGroupStage(readOnly) {
             </div>
             ${
               competition.teamIds.length < 2
-                ? `<div class="notice">Asigna al menos dos equipos a la competicion para generar partidos.</div>`
-                : `<p class="status-line">Generar grupos reparte equipos y crea todos los cruces de liga. Si ya habia resultados, se pedira confirmacion antes de sobrescribir.</p>`
+                ? `<div class="notice">Asigna al menos dos equipos a la competición para generar partidos.</div>`
+                : `<p class="status-line">Generar grupos reparte equipos y crea todos los cruces de liga. Si ya había resultados, se pedirá confirmación antes de sobrescribir.</p>`
             }
           </section>
         `
@@ -898,7 +898,7 @@ function renderGroupStage(readOnly) {
     ${
       competition.groups.length
         ? `<div class="groups-layout">${competition.groups.map((group) => renderGroup(competition, group, readOnly)).join("")}</div>`
-        : emptyState("Grupos pendientes", readOnly ? "La organizacion aun no ha publicado la fase de grupos." : "Genera los grupos cuando tengas los equipos asignados.")
+        : emptyState("Grupos pendientes", readOnly ? "La organización aún no ha publicado la fase de grupos." : "Genera los grupos cuando tengas los equipos asignados.")
     }
   `;
 }
@@ -1006,8 +1006,8 @@ function renderBracket(readOnly) {
 
   if (!competition) {
     return `
-      ${sectionHeader(readOnly ? "Cuadro" : "Eliminatorias", "Selecciona una competicion para ver su cuadro.")}
-      ${emptyState("Sin competicion", "Todavia no hay competiciones creadas.")}
+      ${sectionHeader(readOnly ? "Cuadro" : "Eliminatorias", "Selecciona una competición para ver su cuadro.")}
+      ${emptyState("Sin competición", "Todavía no hay competiciones creadas.")}
     `;
   }
 
@@ -1018,7 +1018,7 @@ function renderBracket(readOnly) {
       readOnly ? "Cuadro eliminatorio" : "Eliminatorias",
       readOnly
         ? "Consulta el cuadro y el avance de cada ronda."
-        : "Genera el cuadro desde la clasificacion de grupos y apunta resultados de eliminatoria.",
+        : "Genera el cuadro desde la clasificación de grupos y apunta resultados de eliminatoria.",
       renderCompetitionSelect(readOnly ? "publicCompetitionSelect" : "competitionSelect"),
     )}
 
@@ -1030,7 +1030,7 @@ function renderBracket(readOnly) {
             <div class="section-header">
               <div>
                 <h2>Generar cuadro</h2>
-                <p>Se empareja el mejor de un grupo contra el peor clasificado de otro, el segundo contra el penultimo y asi sucesivamente. Con mas de dos grupos, el grupo rival se elige aleatoriamente.</p>
+                <p>Se empareja el mejor de un grupo contra el peor clasificado de otro, el segundo contra el penúltimo y así sucesivamente. Con más de dos grupos, el grupo rival se elige aleatoriamente.</p>
               </div>
               <div class="toolbar">
                 <select id="qualifiersPerGroup" aria-label="Clasificados por grupo">
@@ -1043,7 +1043,7 @@ function renderBracket(readOnly) {
                 </button>
               </div>
             </div>
-            ${hasGroups ? `<p class="status-line">Despues de generar el cuadro puedes arrastrar equipos en la primera ronda para ajustar cruces manualmente.</p>` : `<div class="notice">Primero genera la fase de grupos para obtener clasificados.</div>`}
+            ${hasGroups ? `<p class="status-line">Después de generar el cuadro puedes arrastrar equipos en la primera ronda para ajustar cruces manualmente.</p>` : `<div class="notice">Primero genera la fase de grupos para obtener clasificados.</div>`}
           </section>
         `
     }
@@ -1053,7 +1053,7 @@ function renderBracket(readOnly) {
     ${
       competition.knockout.rounds.length
         ? `<div class="bracket">${competition.knockout.rounds.map((round, roundIndex) => renderBracketRound(competition, round, roundIndex, readOnly)).join("")}</div>`
-        : emptyState("Cuadro pendiente", readOnly ? "La organizacion aun no ha publicado la eliminatoria." : "Genera el cuadro cuando tengas clasificaciones.")
+        : emptyState("Cuadro pendiente", readOnly ? "La organización aún no ha publicado la eliminatoria." : "Genera el cuadro cuando tengas clasificaciones.")
     }
   `;
 }
@@ -1065,8 +1065,8 @@ function renderBracketExportTools() {
         <button class="ghost-button" type="button" data-action="print-bracket-pdf" aria-label="Imprimir cuadro o guardarlo como PDF">
           Imprimir / PDF
         </button>
-        <button class="ghost-button" type="button" data-action="print-bracket-multipage-pdf" aria-label="Preparar PDF multipagina para cuadros grandes">
-          PDF multipagina
+        <button class="ghost-button" type="button" data-action="print-bracket-multipage-pdf" aria-label="Preparar PDF multipágina para cuadros grandes">
+          PDF multipágina
         </button>
       </div>
     </section>
@@ -1181,7 +1181,7 @@ function renderPublicOverview() {
   const publicSelect = renderCompetitionSelect("publicCompetitionSelect");
 
   return `
-    ${sectionHeader("Vista publica", "Panel de consulta para jugadores y publico, sin controles de edicion.", publicSelect)}
+    ${sectionHeader("Vista pública", "Panel de consulta para jugadores y público, sin controles de edición.", publicSelect)}
     ${
       competition
         ? `
@@ -1202,7 +1202,7 @@ function renderPublicOverview() {
           <div class="grid two" style="margin-top: 16px">
             <section class="panel">
               <h2>${escapeHtml(competition.name)}</h2>
-              <p class="status-line">${escapeHtml(competition.category || "Categoria sin especificar")}</p>
+              <p class="status-line">${escapeHtml(competition.category || "Categoría sin especificar")}</p>
               <div class="tag-row">
                 ${competition.teamIds.map((teamId) => `<span class="tag">${escapeHtml(getTeamName(teamId))}</span>`).join("")}
               </div>
@@ -1210,18 +1210,18 @@ function renderPublicOverview() {
             <section class="court-strip" aria-hidden="true"></section>
           </div>
         `
-        : emptyState("Sin competiciones publicadas", "Cuando la administracion cree una competicion aparecera aqui.")
+        : emptyState("Sin competiciones publicadas", "Cuando la administración cree una competición aparecerá aquí.")
     }
   `;
 }
 
 function renderData() {
   return `
-    ${sectionHeader("Datos", "Copia de seguridad, restauracion y datos de ejemplo para pruebas.")}
+    ${sectionHeader("Datos", "Copia de seguridad, restauración y datos de ejemplo para pruebas.")}
     <div class="grid two">
       <section class="panel">
         <h2>Copias</h2>
-        <p class="status-line">Los datos se guardan automaticamente en este navegador. Exporta un JSON para conservar una copia o moverlo a otro equipo.</p>
+        <p class="status-line">Los datos se guardan automáticamente en este navegador. Exporta un JSON para conservar una copia o moverlo a otro equipo.</p>
         <div class="toolbar" style="margin-top: 12px">
           <button class="primary-button" type="button" data-action="export-data">Exportar JSON</button>
           <button class="ghost-button" type="button" data-action="trigger-import">Importar JSON</button>
@@ -1229,7 +1229,7 @@ function renderData() {
       </section>
       <section class="panel">
         <h2>Pruebas</h2>
-        <p class="status-line">Carga equipos, grupos y un cuadro de ejemplo para revisar la aplicacion rapidamente.</p>
+        <p class="status-line">Carga equipos, grupos y un cuadro de ejemplo para revisar la aplicación rápidamente.</p>
         <div class="toolbar" style="margin-top: 12px">
           <button class="ghost-button" type="button" data-action="load-demo">Cargar ejemplo</button>
         </div>
@@ -1268,7 +1268,7 @@ function renderCompetitionSelect(id) {
   if (!state.competitions.length) return "";
 
   return `
-    <select id="${id}" class="competition-select" aria-label="Seleccionar competicion">
+    <select id="${id}" class="competition-select" aria-label="Seleccionar competición">
       ${state.competitions
         .map(
           (competition) => `
@@ -1310,7 +1310,7 @@ function deleteTeam(teamId) {
   if (!team) return;
 
   const used = state.competitions.some((competition) => competition.teamIds.includes(teamId));
-  if (used && !askConfirm(`"${team.name}" esta inscrito en competiciones. Al eliminarlo se quitara tambien de grupos y cuadros. Continuar?`)) {
+  if (used && !askConfirm(`"${team.name}" está inscrito en competiciones. Al eliminarlo se quitará también de grupos y cuadros. ¿Continuar?`)) {
     return;
   }
 
@@ -1339,7 +1339,7 @@ function addCompetition(formData) {
   const category = String(formData.get("category") || "").trim();
   const groupCount = clamp(Number(formData.get("groupCount") || 1), 1, 16);
 
-  if (!name) return showToast("La competicion necesita nombre");
+  if (!name) return showToast("La competición necesita nombre");
 
   const competition = {
     id: uid("competition"),
@@ -1354,7 +1354,7 @@ function addCompetition(formData) {
 
   state.competitions.push(competition);
   ui.selectedCompetitionId = competition.id;
-  saveState("Competicion creada");
+  saveState("Competición creada");
   render();
 }
 
@@ -1362,11 +1362,11 @@ function deleteCompetition(competitionId) {
   const competition = state.competitions.find((item) => item.id === competitionId);
   if (!competition) return;
 
-  if (!askConfirm(`Eliminar "${competition.name}" y todos sus resultados?`)) return;
+  if (!askConfirm(`¿Eliminar "${competition.name}" y todos sus resultados?`)) return;
 
   state.competitions = state.competitions.filter((item) => item.id !== competitionId);
   ui.selectedCompetitionId = state.competitions[0]?.id || "";
-  saveState("Competicion eliminada");
+  saveState("Competición eliminada");
   render();
 }
 
@@ -1378,12 +1378,12 @@ function saveTeamAssignment(competitionId) {
   const changed = selectedTeamIds.join("|") !== competition.teamIds.join("|");
   const hasGenerated = competition.groups.length || competition.knockout.rounds.length;
 
-  if (changed && hasGenerated && !askConfirm("Cambiar equipos no borra automaticamente los grupos existentes, pero puede dejarlos desactualizados. Guardar igualmente?")) {
+  if (changed && hasGenerated && !askConfirm("Cambiar equipos no borra automáticamente los grupos existentes, pero puede dejarlos desactualizados. ¿Guardar igualmente?")) {
     return;
   }
 
   competition.teamIds = selectedTeamIds;
-  saveState("Asignacion guardada");
+  saveState("Asignación guardada");
   render();
 }
 
@@ -1392,7 +1392,7 @@ function generateGroups(competitionId) {
   if (!competition || competition.teamIds.length < 2) return;
 
   if (competition.groups.some((group) => group.matches.some(hasResult)) || competition.knockout.rounds.length) {
-    const ok = askConfirm("Esto sustituira grupos, partidos y eliminatoria de esta competicion. Continuar?");
+    const ok = askConfirm("Esto sustituirá grupos, partidos y eliminatoria de esta competición. ¿Continuar?");
     if (!ok) return;
   }
 
@@ -1536,7 +1536,7 @@ function generateBracket(competitionId) {
   const competition = getCompetition(competitionId);
   if (!competition || !competition.groups.length) return;
 
-  if (competition.knockout.rounds.length && !askConfirm("Esto sustituira el cuadro eliminatorio actual. Continuar?")) {
+  if (competition.knockout.rounds.length && !askConfirm("Esto sustituirá el cuadro eliminatorio actual. ¿Continuar?")) {
     return;
   }
 
@@ -1908,7 +1908,7 @@ function exportData() {
   link.download = `torneo-raqueta-${new Date().toISOString().slice(0, 10)}.json`;
   link.click();
   URL.revokeObjectURL(url);
-  showToast("Exportacion preparada");
+  showToast("Exportación preparada");
 }
 
 function printBracketAsPdf() {
@@ -1936,7 +1936,7 @@ function printBracketAsPdf() {
 
   document.body.classList.add("print-bracket-only");
   window.addEventListener("afterprint", cleanup, { once: true });
-  showToast("Preparando impresion del cuadro");
+  showToast("Preparando impresión del cuadro");
   setTimeout(() => window.print(), 80);
 }
 
@@ -1963,7 +1963,7 @@ function printBracketMultipagePdf() {
 
   document.body.classList.add("print-bracket-multipage");
   window.addEventListener("afterprint", cleanup, { once: true });
-  showToast("Preparando PDF multipagina");
+  showToast("Preparando PDF multipágina");
   setTimeout(() => window.print(), 80);
 }
 
@@ -2022,7 +2022,7 @@ function renderPrintableBracketRound(competition, round, localIndex) {
 function getPrintPageMeta(chunk, pageIndex, pageCount) {
   const range = getPrintRoundRangeLabel(chunk);
   if (ui.lang === "en") return `Page ${pageIndex + 1} of ${pageCount} - Rounds: ${translateText(range) || range}`;
-  return `Pagina ${pageIndex + 1} de ${pageCount} - Rondas: ${range}`;
+  return `Página ${pageIndex + 1} de ${pageCount} - Rondas: ${range}`;
 }
 
 function getPrintRoundRangeLabel(chunk) {
@@ -2062,7 +2062,7 @@ function importData(event) {
 }
 
 function resetData() {
-  if (!askConfirm("Borrar todos los equipos, competiciones y resultados guardados?")) return;
+  if (!askConfirm("¿Borrar todos los equipos, competiciones y resultados guardados?")) return;
   state = createEmptyState();
   ui.selectedCompetitionId = "";
   localStorage.removeItem(STORAGE_KEY);
@@ -2071,7 +2071,7 @@ function resetData() {
 }
 
 function loadDemoData() {
-  if ((state.teams.length || state.competitions.length) && !askConfirm("Esto sustituira los datos actuales por un ejemplo. Continuar?")) {
+  if ((state.teams.length || state.competitions.length) && !askConfirm("Esto sustituirá los datos actuales por un ejemplo. ¿Continuar?")) {
     return;
   }
 

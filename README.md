@@ -1,109 +1,106 @@
-# 🎾 Control de Torneos de Raqueta
+# 🎾 Racket Tournament Control
 
-Aplicacion web estatica para gestionar competiciones de deportes de raqueta: padel, tenis, pickleball, squash, badminton u otros formatos por parejas/equipos.
+Static web application for managing racket sports competitions: padel, tennis, pickleball, squash, badminton, or other doubles/team-based formats.
 
-Permite organizar equipos, fase de grupos, resultados al mejor de tres sets, clasificaciones automaticas y cuadros eliminatorios tipo bracket. Es una base funcional sin backend: se ejecuta en navegador y guarda los datos localmente.
+It lets you manage teams, group stages, best-of-three-set match results, automatic standings, and professional-style knockout brackets. This is a functional frontend-only base: it runs in the browser and stores data locally.
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- Alta de equipos con jugadores y notas internas.
-- Creacion de competiciones por categoria y numero de grupos.
-- Asignacion de equipos a cada competicion.
-- Generacion automatica de grupos y partidos todos contra todos.
-- Registro de resultados al mejor de tres sets.
-- Clasificacion calculada por puntos, sets y juegos.
-- Generacion de eliminatoria desde la clasificacion de grupos.
-- Cruces iniciales mejor clasificado vs peor clasificado de otro grupo.
-- Ajuste manual de cruces de primera ronda mediante drag and drop.
-- Cuadro visual tipo bracket con avance automatico de ganadores.
-- Vista publica de solo lectura.
-- Interfaz bilingue ES/EN con preferencia guardada.
-- Exportacion e importacion de datos en JSON.
-- Datos de ejemplo para probar rapidamente.
-- Impresion del cuadro preparada para guardar como PDF desde el navegador.
-- Exportacion PDF multipagina para cuadros grandes, dividiendo el bracket por rondas.
+- Team registration with two players and an associated sport.
+- Group-stage competition management.
+- Best-of-three-set match scoring.
+- Automatic standings based on wins, sets, and games.
+- Knockout bracket generation from group standings.
+- Automatic seeding: top-ranked teams face lower-ranked teams from other groups.
+- Manual bracket adjustments with drag and drop before matches are started.
+- Visual bracket view inspired by professional racket-sport tournaments.
+- Bracket export to PDF.
+- Advanced multipage PDF export for large brackets.
+- Separate admin and viewer modes.
+- English and Spanish interface.
+- Local data persistence in the browser.
+- Reset, sample data, import, and export tools.
 
-## 🚀 Puesta en marcha
+## 🚀 Getting Started
 
-Con Node.js instalado:
+This project does not require a backend. You can open `index.html` directly in the browser or start the included local server.
 
 ```bash
-npm start
+npm install
+npm run dev
 ```
 
-Despues abre:
+Then open:
 
 ```text
 http://127.0.0.1:5173
 ```
 
-Tambien puedes abrir `index.html` directamente en el navegador, aunque se recomienda usar el servidor local para una experiencia mas parecida a produccion.
+If the port is already in use, the server may run on another available port.
 
-## 🧪 Tests y validacion
+## 🧪 Tests and Validation
 
-La suite usa el runner nativo de Node, sin dependencias externas.
+Run the automated tests with:
 
 ```bash
 npm test
-npm run check
 ```
 
-Los tests cubren:
+The tests cover core tournament logic such as best-of-three-set scoring, standings calculation, bracket generation, manual bracket movement, and PDF export helpers.
 
-- Marcador al mejor de tres sets.
-- Calculo de clasificacion por puntos, sets y juegos.
-- Generacion de cruces mejor vs peor de otro grupo.
-- Drag and drop de cruces y limpieza de resultados dependientes.
-- Traducciones basicas y textos dinamicos generados.
-- Division de rondas para impresion multipagina.
+## 🌍 Internationalization
 
-## 🌍 Internacionalizacion
+The interface supports:
 
-La interfaz incluye selector ES/EN en la cabecera. La preferencia se guarda en `localStorage`.
+- Spanish (`es`)
+- English (`en`)
 
-La implementacion combina:
+The selected language is saved in `localStorage` under the key:
 
-- Copia principal de cabecera y navegacion por claves estables.
-- Diccionario bidireccional ES/EN para el contenido renderizado.
-- Traduccion de placeholders, `aria-label`, estados, toasts y textos generados.
+```text
+padelTournamentControl.lang
+```
 
-## 💾 Persistencia de datos
+New visible text should be added to the translation dictionary in `app.js` so the UI remains fully multilingual.
 
-Actualmente los datos se guardan en el navegador:
+## 💾 Data Persistence
 
-- Clave principal: `padelTournamentControl.v1`.
-- Idioma seleccionado: `padelTournamentControl.lang`.
+Tournament data is stored locally in the browser with `localStorage`, using this key:
 
-Se conservan estos nombres de claves por compatibilidad con datos ya guardados antes del cambio de marca hacia deportes de raqueta.
+```text
+padelTournamentControl.v1
+```
 
-Para mover datos entre equipos o hacer copias de seguridad, usa las opciones de exportar/importar JSON desde la seccion `Datos`.
+This keeps the application simple and portable, although it also means data is tied to the browser and device where it was created.
 
-## 🧱 Estructura del proyecto
+## 🧱 Project Structure
 
 ```text
 .
-├── assets/
-│   └── court-mark.svg
+├── index.html          # Main application markup
+├── styles.css          # Interface styles and bracket layout
+├── app.js              # Application logic, state, i18n, and exports
+├── dev-server.js       # Local development server
 ├── tests/
-│   └── app.test.js
-├── app.js
-├── dev-server.js
-├── index.html
+│   └── app.test.js     # Automated tests
+├── assets/
+│   └── court-mark.svg  # Visual asset for the racket-sport theme
 ├── package.json
 ├── README.md
-└── styles.css
+└── agents.md
 ```
 
-## 🗺️ Roadmap recomendado
+## 🗺️ Recommended Roadmap
 
-- Backend con base de datos real para multiusuario.
-- Autenticacion y roles de administrador.
-- URLs publicas por competicion.
-- Auditoria de cambios de resultados.
-- Programacion de horarios, pistas/canchas y sedes.
-- Exportacion PDF binaria sin dialogo del navegador, si mas adelante se introduce bundler o libreria dedicada.
-- Configuracion por deporte: puntuacion, super tie-break, sets cortos o reglas especificas.
+- Backend and user authentication.
+- Real database support.
+- Role-based permissions for admins and viewers.
+- Public tournament links.
+- CSV/Excel import and export.
+- Advanced tie-break rules per sport.
+- Match scheduling and court assignment.
+- Player and team history.
 
-## 📌 Nota tecnica
+## 📌 Technical Note
 
-El proyecto no introduce dependencias externas. La logica principal vive en `app.js`, la interfaz en `index.html` y `styles.css`, y el servidor local en `dev-server.js`.
+The project is intentionally lightweight and framework-free. This makes it easy to run, review, and adapt before deciding whether to evolve it into a larger application with a backend, routing, authentication, and a database.
