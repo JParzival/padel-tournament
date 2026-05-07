@@ -1,10 +1,30 @@
 const STORAGE_KEY = "padelTournamentControl.v1";
 const LANG_STORAGE_KEY = "padelTournamentControl.lang";
 
-const TEXT_TRANSLATIONS = {
+const UI_COPY = {
+  es: {
+    appEyebrow: "Panel de torneos",
+    appTitle: "Control de Torneos de Raqueta",
+    adminMode: "Administracion",
+    publicMode: "Vista publica",
+    exportData: "Exportar datos",
+    importData: "Importar datos",
+  },
   en: {
+    appEyebrow: "Tournament panel",
+    appTitle: "Racket Sports Tournament Control",
+    adminMode: "Admin",
+    publicMode: "Public view",
+    exportData: "Export data",
+    importData: "Import data",
+  },
+};
+
+const TEXT_TRANSLATIONS_ES_EN = {
+    "Panel de torneos": "Tournament panel",
     "Panel de torneo": "Tournament panel",
-    "Control de Torneo de Padel": "Padel Tournament Control",
+    "Control de Torneos de Raqueta": "Racket Sports Tournament Control",
+    "Control de Torneo de Padel": "Racket Sports Tournament Control",
     Administracion: "Admin",
     "Vista publica": "Public view",
     Resumen: "Overview",
@@ -23,9 +43,18 @@ const TEXT_TRANSLATIONS = {
     "Competiciones creadas": "Competitions created",
     "Partidos con resultado": "Matches with results",
     "Sin competicion seleccionada": "No competition selected",
+    "Categoria sin especificar": "Unspecified category",
+    "Fase de grupos creada": "Group stage created",
+    "Cuadro creado": "Bracket created",
     "Crea una competicion para empezar a organizar los equipos.": "Create a competition to start organizing teams.",
     "Siguiente paso recomendado": "Recommended next step",
     "Da de alta los primeros equipos con sus jugadores.": "Register the first teams with their players.",
+    "Crea una competicion y asignale los equipos inscritos.": "Create a competition and assign registered teams.",
+    "Genera los grupos para crear automaticamente los partidos de liga.": "Generate the groups to automatically create round-robin matches.",
+    "Cuando tengas clasificaciones, genera el cuadro eliminatorio desde la seccion Eliminatorias.":
+      "Once standings are available, generate the knockout bracket from the Knockout section.",
+    "El torneo ya tiene estructura completa. Actualiza resultados y revisa la vista publica.":
+      "The tournament structure is complete. Update results and review the public view.",
     "Accesos rapidos": "Quick links",
     "Alta y control de equipos participantes con listado de jugadores.": "Register and manage participating teams and their players.",
     "Nuevo equipo": "New team",
@@ -36,6 +65,7 @@ const TEXT_TRANSLATIONS = {
     "Equipos registrados": "Registered teams",
     total: "total",
     Eliminar: "Delete",
+    "Sin jugadores": "No players",
     "Todavia no hay equipos": "There are no teams yet",
     "Crea el primer equipo para poder inscribirlo en una competicion.": "Create the first team so it can be entered in a competition.",
     "Crea competiciones, asigna equipos inscritos y deja preparada la fase de grupos.":
@@ -47,10 +77,16 @@ const TEXT_TRANSLATIONS = {
     "Crear competicion": "Create competition",
     Seleccionar: "Select",
     Seleccionada: "Selected",
+    "Sin competiciones": "No competitions",
+    "Crea una competicion para agrupar equipos y resultados.": "Create a competition to group teams and results.",
+    "Sin categoria": "No category",
+    "grupos previstos": "planned groups",
     "Selecciona o crea una competicion": "Select or create a competition",
     "Cuando exista una competicion podras asignarle equipos.": "Once a competition exists, you can assign teams to it.",
     "No hay equipos disponibles": "No teams available",
     "Da de alta equipos antes de asignarlos a una competicion.": "Register teams before assigning them to a competition.",
+    "Marca los equipos que entran en esta competicion. Al generar grupos se repartiran automaticamente.":
+      "Select the teams entering this competition. When groups are generated, teams will be distributed automatically.",
     "Guardar asignacion": "Save assignment",
     "Fase de grupos": "Group stage",
     "Selecciona una competicion para ver sus grupos.": "Select a competition to view its groups.",
@@ -60,6 +96,9 @@ const TEXT_TRANSLATIONS = {
     "Genera partidos de liga, apunta resultados y revisa clasificaciones calculadas.":
       "Generate round-robin matches, enter results and review calculated standings.",
     "Generar grupos y partidos": "Generate groups and matches",
+    "Asigna al menos dos equipos a la competicion para generar partidos.": "Assign at least two teams to the competition to generate matches.",
+    "Generar grupos reparte equipos y crea todos los cruces de liga. Si ya habia resultados, se pedira confirmacion antes de sobrescribir.":
+      "Generating groups distributes teams and creates all round-robin matches. If results already exist, confirmation will be requested before overwriting.",
     "Grupos pendientes": "Groups pending",
     "La organizacion aun no ha publicado la fase de grupos.": "The organizer has not published the group stage yet.",
     "Genera los grupos cuando tengas los equipos asignados.": "Generate the groups once teams are assigned.",
@@ -69,7 +108,13 @@ const TEXT_TRANSLATIONS = {
     "Genera el cuadro desde la clasificacion de grupos y apunta resultados de eliminatoria.":
       "Generate the bracket from group standings and enter knockout results.",
     "Generar cuadro": "Generate bracket",
+    "Se empareja el mejor de un grupo contra el peor clasificado de otro, el segundo contra el penultimo y asi sucesivamente. Con mas de dos grupos, el grupo rival se elige aleatoriamente.":
+      "The best player/team from one group is paired with the lowest-ranked qualifier from another, second with second-lowest, and so on. With more than two groups, the rival group is selected at random.",
+    "Clasificados por grupo": "Qualifiers per group",
     "Generar eliminatoria": "Generate knockout",
+    "Despues de generar el cuadro puedes arrastrar equipos en la primera ronda para ajustar cruces manualmente.":
+      "After generating the bracket, you can drag teams in the first round to adjust match-ups manually.",
+    "Primero genera la fase de grupos para obtener clasificados.": "First generate the group stage to get qualifiers.",
     "Cuadro pendiente": "Bracket pending",
     "La organizacion aun no ha publicado la eliminatoria.": "The organizer has not published the knockout bracket yet.",
     "Genera el cuadro cuando tengas clasificaciones.": "Generate the bracket once standings are available.",
@@ -77,6 +122,7 @@ const TEXT_TRANSLATIONS = {
     Pendiente: "Pending",
     "Sin resultado": "No result",
     "Limpiar resultado": "Clear result",
+    "Marcador al mejor de tres sets": "Best-of-three sets score",
     "Set 1": "Set 1",
     "Set 2": "Set 2",
     "Set 3": "Set 3",
@@ -86,19 +132,29 @@ const TEXT_TRANSLATIONS = {
     "Vista publica": "Public view",
     "Panel de consulta para jugadores y publico, sin controles de edicion.":
       "Read-only panel for players and spectators.",
+    "Rondas de cuadro": "Bracket rounds",
     "Sin competiciones publicadas": "No published competitions",
     "Cuando la administracion cree una competicion aparecera aqui.": "When the admin creates a competition, it will appear here.",
     "Copia de seguridad, restauracion y datos de ejemplo para pruebas.": "Backups, restore and sample data for testing.",
     Copias: "Backups",
+    "Los datos se guardan automaticamente en este navegador. Exporta un JSON para conservar una copia o moverlo a otro equipo.":
+      "Data is saved automatically in this browser. Export a JSON file to keep a backup or move it to another device.",
     "Exportar JSON": "Export JSON",
     "Importar JSON": "Import JSON",
     Pruebas: "Testing",
+    "Carga equipos, grupos y un cuadro de ejemplo para revisar la aplicacion rapidamente.":
+      "Load teams, groups and a sample bracket to review the app quickly.",
     "Cargar ejemplo": "Load sample",
     Reiniciar: "Reset",
+    "Elimina todos los datos guardados en este navegador.": "Delete all data saved in this browser.",
     "Borrar todo": "Delete all",
     "Guardado": "Saved",
+    "El equipo necesita nombre y jugadores": "The team needs a name and players",
     "Equipo guardado": "Team saved",
+    "Equipo eliminado": "Team deleted",
+    "La competicion necesita nombre": "The competition needs a name",
     "Competicion creada": "Competition created",
+    "Competicion eliminada": "Competition deleted",
     "Asignacion guardada": "Assignment saved",
     "Grupos generados": "Groups generated",
     "Resultado actualizado": "Result updated",
@@ -110,7 +166,20 @@ const TEXT_TRANSLATIONS = {
     "Datos borrados": "Data deleted",
     "Ejemplo cargado": "Sample loaded",
     "Exportacion preparada": "Export ready",
-  },
+    "No se pudo mover el equipo": "The team could not be moved",
+    "Hacen falta al menos dos clasificados": "At least two qualifiers are required",
+    "No se pudo importar el archivo": "The file could not be imported",
+    "Cambiar equipos no borra automaticamente los grupos existentes, pero puede dejarlos desactualizados. Guardar igualmente?":
+      "Changing teams does not automatically delete existing groups, but may leave them outdated. Save anyway?",
+    "Esto sustituira grupos, partidos y eliminatoria de esta competicion. Continuar?":
+      "This will replace groups, matches and the knockout bracket for this competition. Continue?",
+    "Esto sustituira el cuadro eliminatorio actual. Continuar?": "This will replace the current knockout bracket. Continue?",
+    "Borrar todos los equipos, competiciones y resultados guardados?": "Delete all saved teams, competitions and results?",
+    "Esto sustituira los datos actuales por un ejemplo. Continuar?": "This will replace the current data with sample data. Continue?",
+    "Seleccionar competicion": "Select competition",
+    "Por definir": "To be decided",
+    "Equipo eliminado": "Deleted team",
+    "Bye": "Bye",
 };
 
 const PLACEHOLDER_TRANSLATIONS = {
@@ -122,6 +191,10 @@ const PLACEHOLDER_TRANSLATIONS = {
     "Ej. Masculina 3a, Mixta, Femenina...": "E.g. Men's 3rd, Mixed, Women's...",
   },
 };
+
+const TEXT_TRANSLATIONS_EN_ES = Object.fromEntries(
+  Object.entries(TEXT_TRANSLATIONS_ES_EN).map(([es, en]) => [en, es]),
+);
 
 const adminSections = [
   { id: "dashboard", label: "Resumen" },
@@ -289,18 +362,46 @@ function setLanguage(lang) {
   render();
 }
 
-function applyTranslations(root = document.body) {
-  if (ui.lang === "es") return;
+function t(key) {
+  return UI_COPY[ui.lang]?.[key] || UI_COPY.es[key] || key;
+}
 
+function applyTranslations(root = document.body) {
+  renderStaticChrome();
   translateTextNodes(root);
   root.querySelectorAll?.("[placeholder]").forEach((element) => {
-    const translation = PLACEHOLDER_TRANSLATIONS.en[element.getAttribute("placeholder")];
+    const translation = translatePlaceholder(element.getAttribute("placeholder"));
     if (translation) element.setAttribute("placeholder", translation);
   });
   root.querySelectorAll?.("[aria-label]").forEach((element) => {
     const translation = translateText(element.getAttribute("aria-label"));
     if (translation) element.setAttribute("aria-label", translation);
   });
+}
+
+function renderStaticChrome() {
+  document.title = t("appTitle");
+  const eyebrow = document.querySelector(".eyebrow");
+  const title = document.querySelector(".brand h1");
+  const adminButton = document.querySelector('[data-mode="admin"]');
+  const publicButton = document.querySelector('[data-mode="public"]');
+  const exportButton = document.querySelector('[data-action="export-data"]');
+  const importLabel = document.querySelector(".file-label");
+
+  if (eyebrow) eyebrow.textContent = t("appEyebrow");
+  if (title) title.textContent = t("appTitle");
+  if (adminButton) adminButton.textContent = t("adminMode");
+  if (publicButton) publicButton.textContent = t("publicMode");
+  if (exportButton) exportButton.textContent = t("exportData");
+  if (importLabel?.firstChild) importLabel.firstChild.nodeValue = `\n              ${t("importData")}\n              `;
+}
+
+function translatePlaceholder(value) {
+  const text = String(value ?? "");
+  if (ui.lang === "en") return PLACEHOLDER_TRANSLATIONS.en[text] || "";
+
+  const reverse = Object.fromEntries(Object.entries(PLACEHOLDER_TRANSLATIONS.en).map(([es, en]) => [en, es]));
+  return reverse[text] || "";
 }
 
 function translateTextNodes(root) {
@@ -319,7 +420,8 @@ function translateText(value) {
   const trimmed = text.trim();
   if (!trimmed) return "";
 
-  const exact = TEXT_TRANSLATIONS.en[trimmed];
+  const dictionary = ui.lang === "en" ? TEXT_TRANSLATIONS_ES_EN : TEXT_TRANSLATIONS_EN_ES;
+  const exact = dictionary[trimmed];
   if (exact) return text.replace(trimmed, exact);
 
   const generated = translateGeneratedText(trimmed);
@@ -327,6 +429,39 @@ function translateText(value) {
 }
 
 function translateGeneratedText(text) {
+  if (ui.lang === "es") {
+    const groupMatchEn = text.match(/^Group ([A-Z])$/);
+    if (groupMatchEn) return `Grupo ${groupMatchEn[1]}`;
+
+    const roundMatchEn = text.match(/^Round (\d+)$/);
+    if (roundMatchEn) return `Ronda ${roundMatchEn[1]}`;
+
+    const perGroupMatchEn = text.match(/^(\d+) per group$/);
+    if (perGroupMatchEn) return `${perGroupMatchEn[1]} por grupo`;
+
+    const totalMatchEn = text.match(/^(\d+) total$/);
+    if (totalMatchEn) return `${totalMatchEn[1]} total`;
+
+    const teamCountMatchEn = text.match(/^(\d+) teams$/);
+    if (teamCountMatchEn) return `${teamCountMatchEn[1]} equipos`;
+
+    const playerCountMatchEn = text.match(/^(\d+) players$/);
+    if (playerCountMatchEn) return `${playerCountMatchEn[1]} jugadores`;
+
+    const playersMatchEn = text.match(/^\((\d+) players\)$/);
+    if (playersMatchEn) return `(${playersMatchEn[1]} jugadores)`;
+
+    if (text.startsWith("Winner: ")) return text.replace("Winner: ", "Gana ");
+    if (text.startsWith("Advances: ")) return text.replace("Advances: ", "Avanza ");
+    if (text.startsWith("Match ")) return text.replace("Match ", "Partido ");
+    if (text.startsWith("Winner of match ")) return text.replace("Winner of match ", "Ganador partido ");
+    if (text.startsWith("Delete ") && text.endsWith(" and all its results?")) {
+      return text.replace(/^Delete "(.+)" and all its results\?$/, 'Eliminar "$1" y todos sus resultados?');
+    }
+
+    return "";
+  }
+
   const groupMatch = text.match(/^Grupo ([A-Z])$/);
   if (groupMatch) return `Group ${groupMatch[1]}`;
 
@@ -342,6 +477,9 @@ function translateGeneratedText(text) {
   const teamCountMatch = text.match(/^(\d+) equipos$/);
   if (teamCountMatch) return `${teamCountMatch[1]} teams`;
 
+  const playerCountMatch = text.match(/^(\d+) jugadores$/);
+  if (playerCountMatch) return `${playerCountMatch[1]} players`;
+
   const playersMatch = text.match(/^\((\d+) jugadores\)$/);
   if (playersMatch) return `(${playersMatch[1]} players)`;
 
@@ -349,6 +487,15 @@ function translateGeneratedText(text) {
   if (text.startsWith("Avanza ")) return text.replace("Avanza ", "Advances: ");
   if (text.startsWith("Partido ")) return text.replace("Partido ", "Match ");
   if (text.startsWith("Ganador partido ")) return text.replace("Ganador partido ", "Winner of match ");
+  if (text.startsWith("Eliminar ") && text.endsWith(" y todos sus resultados?")) {
+    return text.replace(/^Eliminar "(.+)" y todos sus resultados\?$/, 'Delete "$1" and all its results?');
+  }
+  if (text.includes("esta inscrito en competiciones")) {
+    return text.replace(
+      /^"(.+)" esta inscrito en competiciones\. Al eliminarlo se quitara tambien de grupos y cuadros\. Continuar\?$/,
+      '"$1" is entered in competitions. Deleting it will also remove it from groups and brackets. Continue?',
+    );
+  }
 
   return "";
 }
@@ -1133,7 +1280,7 @@ function deleteTeam(teamId) {
   if (!team) return;
 
   const used = state.competitions.some((competition) => competition.teamIds.includes(teamId));
-  if (used && !confirm(`"${team.name}" esta inscrito en competiciones. Al eliminarlo se quitara tambien de grupos y cuadros. Continuar?`)) {
+  if (used && !askConfirm(`"${team.name}" esta inscrito en competiciones. Al eliminarlo se quitara tambien de grupos y cuadros. Continuar?`)) {
     return;
   }
 
@@ -1185,7 +1332,7 @@ function deleteCompetition(competitionId) {
   const competition = state.competitions.find((item) => item.id === competitionId);
   if (!competition) return;
 
-  if (!confirm(`Eliminar "${competition.name}" y todos sus resultados?`)) return;
+  if (!askConfirm(`Eliminar "${competition.name}" y todos sus resultados?`)) return;
 
   state.competitions = state.competitions.filter((item) => item.id !== competitionId);
   ui.selectedCompetitionId = state.competitions[0]?.id || "";
@@ -1201,7 +1348,7 @@ function saveTeamAssignment(competitionId) {
   const changed = selectedTeamIds.join("|") !== competition.teamIds.join("|");
   const hasGenerated = competition.groups.length || competition.knockout.rounds.length;
 
-  if (changed && hasGenerated && !confirm("Cambiar equipos no borra automaticamente los grupos existentes, pero puede dejarlos desactualizados. Guardar igualmente?")) {
+  if (changed && hasGenerated && !askConfirm("Cambiar equipos no borra automaticamente los grupos existentes, pero puede dejarlos desactualizados. Guardar igualmente?")) {
     return;
   }
 
@@ -1215,7 +1362,7 @@ function generateGroups(competitionId) {
   if (!competition || competition.teamIds.length < 2) return;
 
   if (competition.groups.some((group) => group.matches.some(hasResult)) || competition.knockout.rounds.length) {
-    const ok = confirm("Esto sustituira grupos, partidos y eliminatoria de esta competicion. Continuar?");
+    const ok = askConfirm("Esto sustituira grupos, partidos y eliminatoria de esta competicion. Continuar?");
     if (!ok) return;
   }
 
@@ -1359,7 +1506,7 @@ function generateBracket(competitionId) {
   const competition = getCompetition(competitionId);
   if (!competition || !competition.groups.length) return;
 
-  if (competition.knockout.rounds.length && !confirm("Esto sustituira el cuadro eliminatorio actual. Continuar?")) {
+  if (competition.knockout.rounds.length && !askConfirm("Esto sustituira el cuadro eliminatorio actual. Continuar?")) {
     return;
   }
 
@@ -1728,7 +1875,7 @@ function exportData() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `torneo-padel-${new Date().toISOString().slice(0, 10)}.json`;
+  link.download = `torneo-raqueta-${new Date().toISOString().slice(0, 10)}.json`;
   link.click();
   URL.revokeObjectURL(url);
   showToast("Exportacion preparada");
@@ -1765,7 +1912,7 @@ function importData(event) {
 }
 
 function resetData() {
-  if (!confirm("Borrar todos los equipos, competiciones y resultados guardados?")) return;
+  if (!askConfirm("Borrar todos los equipos, competiciones y resultados guardados?")) return;
   state = createEmptyState();
   ui.selectedCompetitionId = "";
   localStorage.removeItem(STORAGE_KEY);
@@ -1774,17 +1921,17 @@ function resetData() {
 }
 
 function loadDemoData() {
-  if ((state.teams.length || state.competitions.length) && !confirm("Esto sustituira los datos actuales por un ejemplo. Continuar?")) {
+  if ((state.teams.length || state.competitions.length) && !askConfirm("Esto sustituira los datos actuales por un ejemplo. Continuar?")) {
     return;
   }
 
   const teamNames = [
     ["Smash Norte", "Laura Martin", "Ana Soler"],
-    ["Cristal Padel", "Marta Ruiz", "Irene Santos"],
+    ["Cristal Racket", "Marta Ruiz", "Irene Santos"],
     ["Vibora Club", "Nerea Cano", "Paula Gil"],
     ["Bandeja 7", "Elena Mora", "Sara Vega"],
     ["Punto de Oro", "Carlos Vidal", "Javier Leon"],
-    ["Red Padel", "Pablo Sanz", "Diego Molina"],
+    ["Red Court", "Pablo Sanz", "Diego Molina"],
     ["Zona 20x10", "Mario Casas", "Ruben Prieto"],
     ["La Reja", "Andres Nieto", "Hugo Marin"],
   ];
@@ -1838,9 +1985,17 @@ function showToast(message) {
   document.querySelector(".toast")?.remove();
   const toast = document.createElement("div");
   toast.className = "toast";
-  toast.textContent = message;
+  toast.textContent = localizeMessage(message);
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 2200);
+}
+
+function localizeMessage(message) {
+  return translateText(message) || message;
+}
+
+function askConfirm(message) {
+  return confirm(localizeMessage(message));
 }
 
 function escapeHtml(value) {

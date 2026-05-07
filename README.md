@@ -1,8 +1,8 @@
-# 🎾 Control de Torneo de Padel
+# 🎾 Control de Torneos de Raqueta
 
-Aplicacion web estatica para gestionar torneos de padel con equipos, fase de grupos, resultados al mejor de tres sets, clasificaciones automaticas y cuadro eliminatorio tipo bracket.
+Aplicacion web estatica para gestionar competiciones de deportes de raqueta: padel, tenis, pickleball, squash, badminton u otros formatos por parejas/equipos.
 
-La aplicacion esta pensada como una primera base funcional: se puede usar directamente en navegador, no requiere backend y conserva los datos en el navegador mediante `localStorage`.
+Permite organizar equipos, fase de grupos, resultados al mejor de tres sets, clasificaciones automaticas y cuadros eliminatorios tipo bracket. Es una base funcional sin backend: se ejecuta en navegador y guarda los datos localmente.
 
 ## ✨ Funcionalidades
 
@@ -17,7 +17,7 @@ La aplicacion esta pensada como una primera base funcional: se puede usar direct
 - Ajuste manual de cruces de primera ronda mediante drag and drop.
 - Cuadro visual tipo bracket con avance automatico de ganadores.
 - Vista publica de solo lectura.
-- Interfaz disponible en espanol e ingles.
+- Interfaz bilingue ES/EN con preferencia guardada.
 - Exportacion e importacion de datos en JSON.
 - Datos de ejemplo para probar rapidamente.
 
@@ -46,18 +46,23 @@ npm test
 npm run check
 ```
 
-Si acabas de instalar Node en Windows y la terminal aun no reconoce `node`, cierra y vuelve a abrir VS Code o PowerShell.
-
 Los tests cubren:
 
 - Marcador al mejor de tres sets.
 - Calculo de clasificacion por puntos, sets y juegos.
 - Generacion de cruces mejor vs peor de otro grupo.
 - Drag and drop de cruces y limpieza de resultados dependientes.
+- Traducciones basicas y textos dinamicos generados.
 
-## 🌍 Idiomas
+## 🌍 Internacionalizacion
 
-La interfaz incluye selector ES/EN en la cabecera. La preferencia se guarda en `localStorage` y se conserva entre sesiones del mismo navegador.
+La interfaz incluye selector ES/EN en la cabecera. La preferencia se guarda en `localStorage`.
+
+La implementacion combina:
+
+- Copia principal de cabecera y navegacion por claves estables.
+- Diccionario bidireccional ES/EN para el contenido renderizado.
+- Traduccion de placeholders, `aria-label`, estados, toasts y textos generados.
 
 ## 💾 Persistencia de datos
 
@@ -65,6 +70,8 @@ Actualmente los datos se guardan en el navegador:
 
 - Clave principal: `padelTournamentControl.v1`.
 - Idioma seleccionado: `padelTournamentControl.lang`.
+
+Se conservan estos nombres de claves por compatibilidad con datos ya guardados antes del cambio de marca hacia deportes de raqueta.
 
 Para mover datos entre equipos o hacer copias de seguridad, usa las opciones de exportar/importar JSON desde la seccion `Datos`.
 
@@ -90,9 +97,9 @@ Para mover datos entre equipos o hacer copias de seguridad, usa las opciones de 
 - Autenticacion y roles de administrador.
 - URLs publicas por competicion.
 - Auditoria de cambios de resultados.
-- Programacion de horarios y pistas.
+- Programacion de horarios, pistas/canchas y sedes.
 - Exportacion a PDF o imagen del bracket.
-- Mejora del modelo de desempates segun reglamento especifico del torneo.
+- Configuracion por deporte: puntuacion, super tie-break, sets cortos o reglas especificas.
 
 ## 📌 Nota tecnica
 

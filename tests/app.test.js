@@ -27,6 +27,14 @@ function createHarness(savedState = createSavedState()) {
     createElement() {
       return { className: "", textContent: "", remove() {} };
     },
+    createTreeWalker() {
+      return {
+        currentNode: null,
+        nextNode() {
+          return false;
+        },
+      };
+    },
     querySelector() {
       return domNode;
     },
@@ -257,8 +265,14 @@ test("swapping first-round bracket slots resets knockout results", () => {
 test("i18n helpers translate static and generated interface labels", () => {
   const app = createHarness();
 
+  app.setLanguage("en");
   assert.equal(app.translateText("Administracion"), "Admin");
   assert.equal(app.translateText("Vista publica"), "Public view");
   assert.equal(app.translateGeneratedText("Grupo B"), "Group B");
   assert.equal(app.translateGeneratedText("3 por grupo"), "3 per group");
+
+  app.setLanguage("es");
+  assert.equal(app.translateText("Admin"), "Administracion");
+  assert.equal(app.translateGeneratedText("Group B"), "Grupo B");
+  assert.equal(app.translateGeneratedText("3 per group"), "3 por grupo");
 });
