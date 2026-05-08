@@ -4,7 +4,16 @@ const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
 
-const appSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+const scriptFiles = [
+  "src/config.js",
+  "src/i18n.js",
+  "src/state.js",
+  "src/domain.js",
+  "src/render.js",
+  "src/forms.js",
+  "src/export.js",
+  "app.js",
+];
 
 function createHarness(savedState = createSavedState()) {
   const storage = new Map([["padelTournamentControl.v1", JSON.stringify(savedState)]]);
@@ -69,7 +78,10 @@ function createHarness(savedState = createSavedState()) {
   };
 
   vm.createContext(sandbox);
-  vm.runInContext(appSource, sandbox, { filename: "app.js" });
+  scriptFiles.forEach((file) => {
+    const source = fs.readFileSync(path.join(__dirname, "..", file), "utf8");
+    vm.runInContext(source, sandbox, { filename: file });
+  });
   return sandbox;
 }
 
@@ -205,6 +217,19 @@ test("qualifier pairing sends best teams against the worst team from another gro
 function toPlain(value) {
   return JSON.parse(JSON.stringify(value));
 }
+
+test("RacketApp namespace exposes refactored modules", () => {
+  const app = createHarness();
+
+  assert.ok(app.RacketApp.config);
+  assert.ok(app.RacketApp.i18n);
+  assert.ok(app.RacketApp.state);
+  assert.ok(app.RacketApp.domain);
+  assert.ok(app.RacketApp.render);
+  assert.ok(app.RacketApp.forms);
+  assert.ok(app.RacketApp.exporting);
+  assert.ok(app.RacketApp.bootstrap);
+});
 
 test("swapping first-round bracket slots resets knockout results", () => {
   const savedState = createSavedState();

@@ -68,7 +68,7 @@ The selected language is saved in `localStorage` under the key:
 padelTournamentControl.lang
 ```
 
-New visible text should be added to the translation dictionary in `app.js` so the UI remains fully multilingual.
+New visible text should be added to the translation dictionary in `src/i18n.js` so the UI remains fully multilingual.
 
 ## 💾 Data Persistence
 
@@ -86,7 +86,15 @@ This keeps the application simple and portable, although it also means data is t
 .
 ├── index.html          # Main application markup
 ├── styles.css          # Interface styles and bracket layout
-├── app.js              # Application logic, state, i18n, and exports
+├── app.js              # Bootstrap and DOM event orchestration
+├── src/
+│   ├── config.js       # Constants, options and navigation definitions
+│   ├── i18n.js         # Spanish/English translations
+│   ├── state.js        # Local state, persistence and migrations
+│   ├── domain.js       # Tournament, scoring and participant logic
+│   ├── render.js       # HTML rendering helpers and views
+│   ├── forms.js        # Form handlers and data mutations
+│   └── export.js       # JSON and PDF/print workflows
 ├── dev-server.js       # Local development server
 ├── tests/
 │   └── app.test.js     # Automated tests
