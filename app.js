@@ -23,6 +23,9 @@ const UI_COPY = {
 const DEFAULT_SPORT = "padel";
 const DEFAULT_PLAY_MODE = "doubles";
 const DEFAULT_COMPETITION_FORMAT = "groups-knockout";
+const DEFAULT_PARTICIPANT_TYPE = "team";
+const DEFAULT_AVATAR =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23d9f1ed'/%3E%3Ccircle cx='48' cy='35' r='16' fill='%230f766e'/%3E%3Cpath d='M20 82c4-18 17-28 28-28s24 10 28 28' fill='%230b5d56'/%3E%3C/svg%3E";
 
 const SPORT_OPTIONS = [
   { value: "ping-pong", label: "Ping-pong" },
@@ -39,6 +42,11 @@ const COMPETITION_FORMAT_OPTIONS = [
   { value: "groups-knockout", label: "Grupos + eliminatoria" },
   { value: "groups", label: "Solo grupos" },
   { value: "knockout", label: "Solo eliminatoria" },
+];
+
+const PARTICIPANT_TYPE_OPTIONS = [
+  { value: "team", label: "Equipo" },
+  { value: "individual", label: "Persona individual" },
 ];
 
 const TEXT_TRANSLATIONS_ES_EN = {
@@ -89,19 +97,42 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Alta y control de personas, parejas o equipos participantes.": "Register and manage participating people, pairs or teams.",
     "Nuevo equipo": "New team",
     "Nuevo participante": "New participant",
+    "Tipo de participante": "Participant type",
+    "Equipo o pareja": "Team or pair",
+    "Persona individual": "Individual person",
     "Nombre del equipo": "Team name",
     "Nombre del participante": "Participant name",
+    "Nombre del equipo o jugador": "Team or player name",
+    "Foto del jugador": "Player photo",
+    "Si no subes foto, usaremos un avatar por defecto.": "If you do not upload a photo, a default avatar will be used.",
+    "Subir foto": "Upload photo",
+    "Sin foto": "No photo",
     Jugadores: "Players",
     Participante: "Participant",
     "Jugadores o integrantes": "Players or members",
+    "Jugadores del equipo o pareja": "Team or pair players",
+    "Añadir jugador": "Add player",
+    Quitar: "Remove",
+    "Eliminar jugador": "Remove player",
+    "Añade cada integrante por separado para evitar errores de formato.": "Add each member separately to avoid formatting errors.",
     "Notas internas": "Internal notes",
     "Guardar equipo": "Save team",
+    "Guardar participante": "Save participant",
     "Participante guardado": "Participant saved",
     "Participante eliminado": "Participant deleted",
     "Equipos registrados": "Registered teams",
+    "Filtrar por tipo": "Filter by type",
+    Todos: "All",
+    "Equipos y parejas": "Teams and pairs",
+    "Personas individuales": "Individual people",
+    Buscar: "Search",
+    "Buscar por nombre o integrante": "Search by name or member",
+    "Sin resultados": "No results",
+    "Ajusta el filtro o la búsqueda para ver participantes.": "Adjust the filter or search to show participants.",
     total: "total",
     Eliminar: "Delete",
     "Sin jugadores": "No players",
+    "Participante individual": "Individual participant",
     "Todavía no hay equipos": "There are no teams yet",
     "Todavía no hay participantes": "There are no participants yet",
     "Crea el primer equipo para poder inscribirlo en una competición.": "Create the first team so it can be entered in a competition.",
@@ -140,6 +171,8 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "No hay participantes disponibles": "No participants available",
     "Da de alta equipos antes de asignarlos a una competición.": "Register teams before assigning them to a competition.",
     "Da de alta participantes antes de asignarlos a una competición.": "Register participants before assigning them to a competition.",
+    "Da de alta participantes de tipo equipo o pareja para esta modalidad.": "Register team or pair participants for this mode.",
+    "Da de alta participantes de tipo persona individual para esta modalidad.": "Register individual person participants for this mode.",
     "Marca los equipos que entran en esta competición. Al generar grupos se repartirán automáticamente.":
       "Select the teams entering this competition. When groups are generated, teams will be distributed automatically.",
     "Guardar asignación": "Save assignment",
@@ -241,6 +274,8 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Guardado": "Saved",
     "El equipo necesita nombre y jugadores": "The team needs a name and players",
     "El participante necesita nombre e integrantes": "The participant needs a name and members",
+    "El equipo necesita al menos dos integrantes": "The team needs at least two members",
+    "Foto adjunta": "Photo attached",
     "Equipo guardado": "Team saved",
     "Equipo eliminado": "Team deleted",
     "La competición necesita nombre": "The competition needs a name",
@@ -285,6 +320,9 @@ const PLACEHOLDER_TRANSLATIONS = {
   en: {
     "Ej. Smash Center A": "E.g. Smash Center A",
     "Ej. Laura Martín o Smash Center A": "E.g. Laura Martin or Smash Center A",
+    "Jugador 1": "Player 1",
+    "Jugador 2": "Player 2",
+    "Buscar por nombre o integrante": "Search by name or member",
     "Un jugador por línea, o separados por coma": "One player per line, or comma-separated",
     "Una persona en individual; dos en parejas, separados por coma o línea": "One person for singles; two for pairs, comma-separated or one per line",
     "Teléfono, observaciones, disponibilidad...": "Phone, notes, availability...",
@@ -320,6 +358,8 @@ let ui = {
   section: "dashboard",
   selectedCompetitionId: state.competitions[0]?.id || "",
   qualifiersPerGroup: 2,
+  participantFilter: "all",
+  participantSearch: "",
   lang: getInitialLang(),
 };
 
@@ -366,6 +406,8 @@ document.addEventListener("click", (event) => {
     "print-groups-pdf": () => printGroupsAsPdf(),
     "print-bracket-pdf": () => printBracketAsPdf(),
     "print-bracket-multipage-pdf": () => printBracketMultipagePdf(),
+    "add-player-field": () => addPlayerField(),
+    "remove-player-field": () => removePlayerField(target),
     "export-data": exportData,
     "trigger-import": () => importFile.click(),
     "reset-data": resetData,
@@ -375,10 +417,10 @@ document.addEventListener("click", (event) => {
   actions[action]?.();
 });
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  if (event.target.id === "teamForm") addTeam(new FormData(event.target));
+  if (event.target.id === "teamForm") await addTeam(new FormData(event.target));
   if (event.target.id === "competitionForm") addCompetition(new FormData(event.target));
 });
 
@@ -396,6 +438,27 @@ document.addEventListener("change", (event) => {
     return;
   }
 
+  if (target.id === "competitionFormat") {
+    syncCompetitionFormatFields();
+    return;
+  }
+
+  if (target.id === "participantType") {
+    syncParticipantForm();
+    return;
+  }
+
+  if (target.id === "participantFilter") {
+    ui.participantFilter = target.value;
+    render();
+    return;
+  }
+
+  if (target.matches("[data-player-photo-input]")) {
+    updatePhotoInputStatus(target);
+    return;
+  }
+
   if (target.matches("[data-group-score]")) {
     updateGroupScore(target);
     return;
@@ -404,6 +467,16 @@ document.addEventListener("change", (event) => {
   if (target.matches("[data-bracket-score]")) {
     updateBracketScore(target);
   }
+});
+
+document.addEventListener("input", (event) => {
+  const target = event.target;
+  if (target.id !== "participantSearch") return;
+
+  ui.participantSearch = target.value;
+  const cursorPosition = target.selectionStart ?? ui.participantSearch.length;
+  render();
+  restoreParticipantSearchFocus(cursorPosition);
 });
 
 document.addEventListener("dragstart", (event) => {
@@ -504,10 +577,10 @@ function renderStaticChrome() {
 
 function translatePlaceholder(value) {
   const text = String(value ?? "");
-  if (ui.lang === "en") return PLACEHOLDER_TRANSLATIONS.en[text] || "";
+  if (ui.lang === "en") return PLACEHOLDER_TRANSLATIONS.en[text] || translateGeneratedText(text) || "";
 
   const reverse = Object.fromEntries(Object.entries(PLACEHOLDER_TRANSLATIONS.en).map(([es, en]) => [en, es]));
-  return reverse[text] || "";
+  return reverse[text] || translateGeneratedText(text) || "";
 }
 
 function translateTextNodes(root) {
@@ -541,6 +614,12 @@ function translateGeneratedText(text) {
 
     const groupMatchOrderEn = text.match(/^Group ([A-Z]) - Match (\d+)$/);
     if (groupMatchOrderEn) return `Grupo ${groupMatchOrderEn[1]} - Partido ${groupMatchOrderEn[2]}`;
+
+    const playerPlaceholderEn = text.match(/^Player (\d+)$/);
+    if (playerPlaceholderEn) return `Jugador ${playerPlaceholderEn[1]}`;
+
+    const photoAttachedEn = text.match(/^Photo attached: (.+)$/);
+    if (photoAttachedEn) return `Foto adjunta: ${photoAttachedEn[1]}`;
 
     const roundMatchEn = text.match(/^Round (\d+)$/);
     if (roundMatchEn) return `Ronda ${roundMatchEn[1]}`;
@@ -641,6 +720,12 @@ function translateGeneratedText(text) {
 
   const groupMatchOrder = text.match(/^Grupo ([A-Z]) - Partido (\d+)$/);
   if (groupMatchOrder) return `Group ${groupMatchOrder[1]} - Match ${groupMatchOrder[2]}`;
+
+  const playerPlaceholder = text.match(/^Jugador (\d+)$/);
+  if (playerPlaceholder) return `Player ${playerPlaceholder[1]}`;
+
+  const photoAttached = text.match(/^Foto adjunta: (.+)$/);
+  if (photoAttached) return `Photo attached: ${photoAttached[1]}`;
 
   const roundMatch = text.match(/^Ronda (\d+)$/);
   if (roundMatch) return `Round ${roundMatch[1]}`;
@@ -766,6 +851,14 @@ function createEmptyState() {
 }
 
 function migrateState(savedState) {
+  savedState.teams.forEach((team) => {
+    team.type = normalizeParticipantType(team.type || (team.players?.length === 1 ? "individual" : DEFAULT_PARTICIPANT_TYPE));
+    team.players ||= [];
+    team.players.forEach((player) => {
+      player.photo ||= "";
+    });
+  });
+
   savedState.competitions.forEach((competition) => {
     competition.sport = normalizeSport(competition.sport);
     competition.playMode = normalizePlayMode(competition.playMode);
@@ -863,6 +956,7 @@ function renderNav() {
 
 function renderDashboard() {
   const selected = getSelectedCompetition();
+  const selectedParticipantIds = selected ? getAssignedEligibleParticipantIds(selected) : [];
   const matches = state.competitions.flatMap((competition) => [
     ...competition.groups.flatMap((group) => group.matches),
     ...competition.knockout.rounds.flatMap((round) => round.matches),
@@ -896,7 +990,7 @@ function renderDashboard() {
         ${
           selected
             ? `
-              <p class="status-line">${escapeHtml(selected.category || "Categoría sin especificar")} - ${escapeHtml(formatParticipantCount(selected, selected.teamIds.length))}</p>
+              <p class="status-line">${escapeHtml(selected.category || "Categoría sin especificar")} - ${escapeHtml(formatParticipantCount(selected, selectedParticipantIds.length))}</p>
               <div class="tag-row">
                 <span class="tag">${escapeHtml(getSportLabel(selected))}</span>
                 <span class="tag">${escapeHtml(getPlayModeLabel(selected))}</span>
@@ -936,7 +1030,7 @@ function renderNextStep(competition) {
   if (!competition) {
     return `<p class="status-line">Crea una competición y asígnale participantes inscritos.</p>`;
   }
-  if (!competition.teamIds.length) {
+  if (!getAssignedEligibleParticipantIds(competition).length) {
     return `<p class="status-line">Asigna ${escapeHtml(getParticipantPlural(competition))} a ${escapeHtml(competition.name)} desde Competiciones.</p>`;
   }
   if (hasGroupStage(competition) && !competition.groups.length) {
@@ -951,6 +1045,8 @@ function renderNextStep(competition) {
 }
 
 function renderTeams() {
+  const visibleParticipants = getFilteredParticipants(ui.participantFilter, ui.participantSearch);
+
   return `
     ${sectionHeader("Participantes", "Alta y control de personas, parejas o equipos participantes.")}
     <div class="grid two">
@@ -958,46 +1054,149 @@ function renderTeams() {
         <h2>Nuevo participante</h2>
         <form id="teamForm" class="form-grid">
           <div class="field">
-            <label for="teamName">Nombre del participante</label>
-            <input id="teamName" name="name" placeholder="Ej. Laura Martín o Smash Center A" required />
+            <label for="participantType">Tipo de participante</label>
+            <select id="participantType" name="type" required>
+              ${PARTICIPANT_TYPE_OPTIONS.map((option) => `<option value="${option.value}">${escapeHtml(option.label)}</option>`).join("")}
+            </select>
           </div>
           <div class="field">
-            <label for="teamPlayers">Jugadores o integrantes</label>
-            <textarea id="teamPlayers" name="players" placeholder="Una persona en individual; dos en parejas, separados por coma o línea" required></textarea>
+            <label for="teamName">Nombre del equipo o jugador</label>
+            <input id="teamName" name="name" placeholder="Ej. Laura Martín o Smash Center A" required />
+          </div>
+          <div class="field individual-photo-field hidden" data-individual-photo-field>
+            <label for="individualPhoto">Foto del jugador</label>
+            <input id="individualPhoto" name="individualPhoto" type="file" accept="image/*" />
+            <span class="field-hint">Si no subes foto, usaremos un avatar por defecto.</span>
+          </div>
+          <div class="field participant-players-field" data-participant-players-field>
+            <label>Jugadores del equipo o pareja</label>
+            <div class="dynamic-player-list" data-player-list>
+              ${renderPlayerInput("Jugador 1")}
+              ${renderPlayerInput("Jugador 2")}
+            </div>
+            <button class="small-button" type="button" data-action="add-player-field">Añadir jugador</button>
+            <span class="field-hint">Añade cada integrante por separado para evitar errores de formato.</span>
           </div>
           <div class="field">
             <label for="teamNotes">Notas internas</label>
             <textarea id="teamNotes" name="notes" placeholder="Teléfono, observaciones, disponibilidad..."></textarea>
           </div>
-          <button class="primary-button" type="submit">Guardar equipo</button>
+          <button class="primary-button" type="submit">Guardar participante</button>
         </form>
       </section>
 
       <section class="panel">
         <div class="item-title">
           <h2>Participantes registrados</h2>
-          <span class="tag">${state.teams.length} total</span>
+          <span class="tag">${visibleParticipants.length} de ${state.teams.length} total</span>
         </div>
+        ${renderParticipantFilters()}
         ${
-          state.teams.length
-            ? `<div class="list">${state.teams.map(renderTeamCard).join("")}</div>`
-            : emptyState("Todavía no hay participantes", "Crea el primer participante para poder inscribirlo en una competición.")
+          visibleParticipants.length
+            ? `<div class="list">${visibleParticipants.map(renderTeamCard).join("")}</div>`
+            : state.teams.length
+              ? emptyState("Sin resultados", "Ajusta el filtro o la búsqueda para ver participantes.")
+              : emptyState("Todavía no hay participantes", "Crea el primer participante para poder inscribirlo en una competición.")
         }
       </section>
     </div>
   `;
 }
 
+function renderParticipantFilters() {
+  return `
+    <div class="participant-filter-bar">
+      <div class="field">
+        <label for="participantFilter">Filtrar por tipo</label>
+        <select id="participantFilter">
+          <option value="all" ${ui.participantFilter === "all" ? "selected" : ""}>Todos</option>
+          <option value="team" ${ui.participantFilter === "team" ? "selected" : ""}>Equipos y parejas</option>
+          <option value="individual" ${ui.participantFilter === "individual" ? "selected" : ""}>Personas individuales</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="participantSearch">Buscar</label>
+        <input id="participantSearch" type="search" value="${escapeHtml(ui.participantSearch)}" placeholder="Buscar por nombre o integrante" />
+      </div>
+    </div>
+  `;
+}
+
+function restoreParticipantSearchFocus(cursorPosition) {
+  const searchInput = document.querySelector("#participantSearch");
+  if (!searchInput) return;
+
+  searchInput.focus?.();
+  searchInput.setSelectionRange?.(cursorPosition, cursorPosition);
+}
+
 function renderTeamCard(team) {
   return `
     <article class="item-card">
       <div class="item-title">
-        <h3>${escapeHtml(team.name)}</h3>
+        <div class="participant-title">
+          ${renderParticipantAvatarGroup(team)}
+          <h3>${escapeHtml(team.name)}</h3>
+        </div>
         <button class="small-button" type="button" data-action="delete-team" data-id="${team.id}">Eliminar</button>
       </div>
-      <p class="meta">${team.players.map((player) => escapeHtml(player.name)).join(" - ") || "Sin jugadores"}</p>
+      <span class="tag">${escapeHtml(getParticipantTypeLabel(team.type))}</span>
+      ${renderParticipantMembers(team)}
       ${team.notes ? `<p class="status-line">${escapeHtml(team.notes)}</p>` : ""}
     </article>
+  `;
+}
+
+function renderParticipantAvatarGroup(team) {
+  const players = team.players?.length ? team.players : [{ name: team.name }];
+  return `
+    <div class="avatar-stack">
+      ${players.slice(0, 3).map((player) => renderPlayerAvatar(player)).join("")}
+    </div>
+  `;
+}
+
+function renderParticipantIdentity(teamId, options = {}) {
+  const team = getTeam(teamId);
+  const label = getTeamName(teamId);
+  const alignClass = options.align === "away" ? " away" : "";
+
+  return `
+    <span class="participant-identity${alignClass}">
+      ${team ? renderParticipantAvatarGroup(team) : ""}
+      <span class="team-name${alignClass}">${escapeHtml(label)}</span>
+    </span>
+  `;
+}
+
+function renderParticipantMembers(team) {
+  if (normalizeParticipantType(team.type) === "individual") return `<p class="meta">Participante individual</p>`;
+  const players = team.players || [];
+  if (!players.length) return `<p class="meta">Sin jugadores</p>`;
+
+  return `
+    <div class="member-list">
+      ${players.map((player) => `<span class="member-pill">${renderPlayerAvatar(player)} ${escapeHtml(player.name)}</span>`).join("")}
+    </div>
+  `;
+}
+
+function renderPlayerAvatar(player) {
+  const src = getPlayerPhoto(player);
+  return `<img class="player-avatar" src="${escapeHtml(src)}" alt="${escapeHtml(player?.name || "Jugador")}" loading="lazy" />`;
+}
+
+function renderPlayerInput(placeholder, value = "") {
+  return `
+    <div class="player-input-row">
+      <input name="players" placeholder="${escapeHtml(placeholder)}" value="${escapeHtml(value)}" data-player-input required />
+      <label class="photo-upload">
+        <input class="player-photo-input" name="playerPhotos" type="file" accept="image/*" aria-label="Foto del jugador" data-player-photo-input />
+        <span class="photo-upload-label">Subir foto</span>
+        <span class="photo-upload-status" data-photo-status>Sin foto</span>
+      </label>
+      <button class="small-button" type="button" data-action="remove-player-field" aria-label="Eliminar jugador">Quitar</button>
+    </div>
   `;
 }
 
@@ -1040,7 +1239,7 @@ function renderCompetitions() {
               ${COMPETITION_FORMAT_OPTIONS.map((option) => `<option value="${option.value}">${escapeHtml(option.label)}</option>`).join("")}
             </select>
           </div>
-          <div class="field">
+          <div class="field" data-group-count-field>
             <label for="competitionGroups">Número de grupos</label>
             <input id="competitionGroups" name="groupCount" type="number" min="1" max="16" value="2" required />
             <span class="field-hint">Solo se usará en formatos con fase de grupos.</span>
@@ -1074,11 +1273,12 @@ function renderCompetitions() {
 
 function renderCompetitionCard(competition) {
   const isSelected = competition.id === ui.selectedCompetitionId;
+  const assignedParticipantIds = getAssignedEligibleParticipantIds(competition);
   return `
     <article class="item-card">
       <div class="item-title">
         <h3>${escapeHtml(competition.name)}</h3>
-        <span class="tag">${escapeHtml(formatParticipantCount(competition, competition.teamIds.length))}</span>
+        <span class="tag">${escapeHtml(formatParticipantCount(competition, assignedParticipantIds.length))}</span>
       </div>
       <p class="meta">${escapeHtml(competition.category || "Sin categoría")} - ${escapeHtml(getSportLabel(competition))} - ${escapeHtml(getPlayModeLabel(competition))}</p>
       <div class="tag-row">
@@ -1098,6 +1298,8 @@ function renderCompetitionCard(competition) {
 }
 
 function renderTeamAssignment(competition) {
+  const eligibleParticipants = getEligibleParticipantsForCompetition(competition);
+  const hasAnyParticipant = state.teams.length > 0;
   return `
     <section class="panel">
       <div class="section-header">
@@ -1110,22 +1312,27 @@ function renderTeamAssignment(competition) {
         </button>
       </div>
       ${
-        state.teams.length
+        eligibleParticipants.length
           ? `
             <div class="team-picker">
-              ${state.teams
+              ${eligibleParticipants
                 .map(
                   (team) => `
                     <label class="check-row">
                       <input type="checkbox" data-team-assignment value="${team.id}" ${competition.teamIds.includes(team.id) ? "checked" : ""} />
-                      <span>${escapeHtml(team.name)} <span class="meta">(${escapeHtml(formatPlayerCount(team.players.length))})</span></span>
+                      <span>${escapeHtml(team.name)} <span class="meta">${escapeHtml(getParticipantAssignmentMeta(team))}</span></span>
                     </label>
                   `,
                 )
                 .join("")}
             </div>
           `
-          : emptyState("No hay participantes disponibles", "Da de alta participantes antes de asignarlos a una competición.")
+          : emptyState(
+              "No hay participantes disponibles",
+              hasAnyParticipant
+                ? `Da de alta participantes de tipo ${getRequiredParticipantTypeLabel(competition)} para esta modalidad.`
+                : "Da de alta participantes antes de asignarlos a una competición.",
+            )
       }
     </section>
   `;
@@ -1152,6 +1359,8 @@ function renderGroupStage(readOnly) {
     `;
   }
 
+  const assignedParticipantIds = getAssignedEligibleParticipantIds(competition);
+
   return `
     ${sectionHeader(
       readOnly ? "Grupos" : "Fase de grupos",
@@ -1168,14 +1377,14 @@ function renderGroupStage(readOnly) {
             <div class="section-header">
               <div>
                 <h2>${escapeHtml(competition.name)}</h2>
-                <p>${escapeHtml(formatParticipantCount(competition, competition.teamIds.length))} asignados - ${competition.groupCount} grupos previstos</p>
+                <p>${escapeHtml(formatParticipantCount(competition, assignedParticipantIds.length))} asignados - ${competition.groupCount} grupos previstos</p>
               </div>
-              <button class="primary-button" type="button" data-action="generate-groups" data-competition-id="${competition.id}" ${competition.teamIds.length < 2 ? "disabled" : ""}>
+              <button class="primary-button" type="button" data-action="generate-groups" data-competition-id="${competition.id}" ${assignedParticipantIds.length < 2 ? "disabled" : ""}>
                 Generar grupos y partidos
               </button>
             </div>
             ${
-              competition.teamIds.length < 2
+              assignedParticipantIds.length < 2
                 ? `<div class="notice">Asigna al menos dos participantes a la competición para generar partidos.</div>`
                 : `<p class="status-line">Generar grupos reparte participantes y crea todos los cruces de liga. Si ya había resultados, se pedirá confirmación antes de sobrescribir.</p>`
             }
@@ -1236,7 +1445,7 @@ function renderStandingsTable(standings) {
               (row, index) => `
                 <tr>
                   <td>${index + 1}</td>
-                  <td><strong>${escapeHtml(getTeamName(row.teamId))}</strong></td>
+                  <td>${renderParticipantIdentity(row.teamId)}</td>
                   <td class="numeric">${row.played}</td>
                   <td class="numeric">${row.won}</td>
                   <td class="numeric">${row.lost}</td>
@@ -1270,9 +1479,9 @@ function renderGroupMatch(competition, group, match, readOnly) {
         <span>${hasResult(match) ? "Finalizado" : "Pendiente"}</span>
       </div>
       <div class="match-teams">
-        <span class="team-name">${escapeHtml(home)}</span>
+        ${renderParticipantIdentity(match.homeTeamId)}
         <span class="versus">vs</span>
-        <span class="team-name away">${escapeHtml(away)}</span>
+        ${renderParticipantIdentity(match.awayTeamId, { align: "away" })}
       </div>
       ${
         readOnly
@@ -1311,7 +1520,8 @@ function renderBracket(readOnly) {
   }
 
   const hasGroups = competition.groups.length > 0;
-  const canGenerateBracket = hasGroupStage(competition) ? hasGroups : competition.teamIds.length >= 2;
+  const assignedParticipantIds = getAssignedEligibleParticipantIds(competition);
+  const canGenerateBracket = hasGroupStage(competition) ? hasGroups : assignedParticipantIds.length >= 2;
 
   return `
     ${sectionHeader(
@@ -1373,11 +1583,13 @@ function getBracketGenerationHelp(competition) {
 }
 
 function renderBracketGenerationStatus(competition) {
+  const assignedParticipantIds = getAssignedEligibleParticipantIds(competition);
+
   if (hasGroupStage(competition) && !competition.groups.length) {
     return `<div class="notice">Primero genera la fase de grupos para obtener clasificados.</div>`;
   }
 
-  if (!hasGroupStage(competition) && competition.teamIds.length < 2) {
+  if (!hasGroupStage(competition) && assignedParticipantIds.length < 2) {
     return `<div class="notice">Asigna al menos dos participantes a la competición para generar la eliminatoria.</div>`;
   }
 
@@ -1462,7 +1674,7 @@ function renderBracketSlot(competition, match, side, label, editable) {
     <div class="bracket-slot ${teamId ? "" : "bye"}"
       ${editable ? `draggable="true" data-bracket-slot data-competition-id="${competition.id}" data-match-id="${match.id}" data-side="${side}"` : ""}>
       <span class="seed-label">${escapeHtml(seedLabel || "")}</span>
-      <span class="team-name">${escapeHtml(label)}</span>
+      ${teamId ? renderParticipantIdentity(teamId) : `<span class="team-name">${escapeHtml(label)}</span>`}
     </div>
   `;
 }
@@ -1525,7 +1737,7 @@ function renderPublicOverview() {
         ? `
           <div class="grid three">
             <section class="panel metric">
-              <strong>${competition.teamIds.length}</strong>
+              <strong>${getAssignedEligibleParticipantIds(competition).length}</strong>
               <span>Participantes</span>
             </section>
             <section class="panel metric">
@@ -1545,7 +1757,7 @@ function renderPublicOverview() {
                 <span class="tag">${escapeHtml(getPlayModeLabel(competition))}</span>
                 ${hasGroupStage(competition) ? `<span class="tag">${competition.groups.length} grupos</span>` : ""}
                 ${hasKnockoutStage(competition) ? `<span class="tag">${competition.knockout.rounds.length} rondas de cuadro</span>` : ""}
-                ${competition.teamIds.map((teamId) => `<span class="tag">${escapeHtml(getTeamName(teamId))}</span>`).join("")}
+                ${getAssignedEligibleParticipantIds(competition).map((teamId) => `<span class="tag">${escapeHtml(getTeamName(teamId))}</span>`).join("")}
               </div>
             </section>
             <section class="court-strip" aria-hidden="true"></section>
@@ -1623,19 +1835,21 @@ function renderCompetitionSelect(id) {
   `;
 }
 
-function addTeam(formData) {
+async function addTeam(formData) {
   const name = String(formData.get("name") || "").trim();
-  const players = String(formData.get("players") || "")
-    .split(/[\n,]+/)
-    .map((player) => player.trim())
-    .filter(Boolean)
-    .map((player) => ({ id: uid("player"), name: player }));
+  const type = normalizeParticipantType(String(formData.get("type") || ""));
+  const players =
+    type === "individual"
+      ? await buildIndividualPlayer(name, formData.get("individualPhoto"))
+      : await buildTeamPlayers(formData.getAll("players"), formData.getAll("playerPhotos"));
   const notes = String(formData.get("notes") || "").trim();
 
   if (!name || !players.length) return showToast("El participante necesita nombre e integrantes");
+  if (type === "team" && players.length < 2) return showToast("El equipo necesita al menos dos integrantes");
 
   state.teams.push({
     id: uid("team"),
+    type,
     name,
     players,
     notes,
@@ -1644,6 +1858,38 @@ function addTeam(formData) {
 
   saveState("Participante guardado");
   render();
+}
+
+async function buildIndividualPlayer(name, photoFile) {
+  const photo = await readImageFileAsDataUrl(photoFile);
+  return name ? [{ id: uid("player"), name, photo }] : [];
+}
+
+async function buildTeamPlayers(playerNames, photoFiles) {
+  const players = [];
+
+  for (const [index, playerName] of playerNames.entries()) {
+    const name = String(playerName || "").trim();
+    if (!name) continue;
+    players.push({
+      id: uid("player"),
+      name,
+      photo: await readImageFileAsDataUrl(photoFiles[index]),
+    });
+  }
+
+  return players;
+}
+
+function readImageFileAsDataUrl(file) {
+  if (!file || typeof file !== "object" || !file.size) return Promise.resolve("");
+
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => resolve("");
+    reader.readAsDataURL(file);
+  });
 }
 
 function deleteTeam(teamId) {
@@ -1736,7 +1982,8 @@ function saveTeamAssignment(competitionId) {
 
 function generateGroups(competitionId) {
   const competition = getCompetition(competitionId);
-  if (!competition || competition.teamIds.length < 2) return;
+  const assignedParticipantIds = competition ? getAssignedEligibleParticipantIds(competition) : [];
+  if (!competition || assignedParticipantIds.length < 2) return;
   if (!hasGroupStage(competition)) {
     showToast("Esta competición no tiene fase de grupos");
     return;
@@ -1747,7 +1994,7 @@ function generateGroups(competitionId) {
     if (!ok) return;
   }
 
-  const shuffled = [...competition.teamIds].sort((a, b) => getTeamName(a).localeCompare(getTeamName(b), "es"));
+  const shuffled = [...assignedParticipantIds].sort((a, b) => getTeamName(a).localeCompare(getTeamName(b), "es"));
   const groupCount = Math.min(competition.groupCount, shuffled.length);
   const groups = Array.from({ length: groupCount }, (_, index) => ({
     id: uid("group"),
@@ -1885,13 +2132,14 @@ function calculateStandings(group) {
 
 function generateBracket(competitionId) {
   const competition = getCompetition(competitionId);
+  const assignedParticipantIds = competition ? getAssignedEligibleParticipantIds(competition) : [];
   if (!competition || !hasKnockoutStage(competition)) {
     showToast("Esta competición no tiene eliminatoria");
     return;
   }
 
   if (hasGroupStage(competition) && !competition.groups.length) return;
-  if (!hasGroupStage(competition) && competition.teamIds.length < 2) return;
+  if (!hasGroupStage(competition) && assignedParticipantIds.length < 2) return;
 
   if (competition.knockout.rounds.length && !askConfirm("Esto sustituirá el cuadro eliminatorio actual. ¿Continuar?")) {
     return;
@@ -1969,7 +2217,7 @@ function getQualifierPairings(competition, perGroup) {
 }
 
 function getDirectKnockoutPairings(competition) {
-  const seeds = [...competition.teamIds]
+  const seeds = getAssignedEligibleParticipantIds(competition)
     .sort((a, b) => getTeamName(a).localeCompare(getTeamName(b), "es"))
     .map((teamId, index) => ({
       teamId,
@@ -2270,6 +2518,10 @@ function getTeamName(teamId) {
   return state.teams.find((team) => team.id === teamId)?.name || "Participante eliminado";
 }
 
+function getTeam(teamId) {
+  return state.teams.find((team) => team.id === teamId) || null;
+}
+
 function nextPowerOfTwo(number) {
   return 2 ** Math.ceil(Math.log2(number));
 }
@@ -2288,6 +2540,10 @@ function normalizePlayMode(value) {
 
 function normalizeCompetitionFormat(value) {
   return COMPETITION_FORMAT_OPTIONS.some((option) => option.value === value) ? value : DEFAULT_COMPETITION_FORMAT;
+}
+
+function normalizeParticipantType(value) {
+  return PARTICIPANT_TYPE_OPTIONS.some((option) => option.value === value) ? value : DEFAULT_PARTICIPANT_TYPE;
 }
 
 function hasGroupStage(competition) {
@@ -2314,6 +2570,74 @@ function getCompetitionFormatLabel(competition) {
   return getOptionLabel(COMPETITION_FORMAT_OPTIONS, normalizeCompetitionFormat(competition?.format));
 }
 
+function getParticipantTypeLabel(type) {
+  return getOptionLabel(PARTICIPANT_TYPE_OPTIONS, normalizeParticipantType(type));
+}
+
+function getRequiredParticipantType(competition) {
+  return normalizePlayMode(competition?.playMode) === "singles" ? "individual" : "team";
+}
+
+function getRequiredParticipantTypeLabel(competition) {
+  return getParticipantTypeLabel(getRequiredParticipantType(competition)).toLowerCase();
+}
+
+function getEligibleParticipantsForCompetition(competition) {
+  const requiredType = getRequiredParticipantType(competition);
+  return state.teams.filter((team) => normalizeParticipantType(team.type) === requiredType);
+}
+
+function getFilteredParticipants(typeFilter = "all", search = "") {
+  const normalizedFilter = typeFilter === "individual" || typeFilter === "team" ? typeFilter : "all";
+  const query = normalizeSearchText(search);
+
+  return state.teams.filter((participant) => {
+    const typeMatches = normalizedFilter === "all" || normalizeParticipantType(participant.type) === normalizedFilter;
+    if (!typeMatches) return false;
+    if (!query) return true;
+    return getParticipantSearchText(participant).includes(query);
+  });
+}
+
+function getParticipantSearchText(participant) {
+  return normalizeSearchText(
+    [
+      participant.name,
+      getParticipantTypeLabel(participant.type),
+      getParticipantCardMeta(participant),
+      ...(participant.players || []).map((player) => player.name),
+      participant.notes,
+    ].join(" "),
+  );
+}
+
+function normalizeSearchText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function getAssignedEligibleParticipantIds(competition) {
+  const eligibleIds = new Set(getEligibleParticipantsForCompetition(competition).map((participant) => participant.id));
+  return competition.teamIds.filter((teamId) => eligibleIds.has(teamId));
+}
+
+function getParticipantAssignmentMeta(participant) {
+  if (normalizeParticipantType(participant.type) === "individual") return "(individual)";
+  return `(${formatPlayerCount(participant.players.length)})`;
+}
+
+function getParticipantCardMeta(participant) {
+  if (normalizeParticipantType(participant.type) === "individual") return "Participante individual";
+  return participant.players.map((player) => player.name).join(" - ") || "Sin jugadores";
+}
+
+function getPlayerPhoto(player) {
+  return player?.photo || DEFAULT_AVATAR;
+}
+
 function getParticipantPlural(competition) {
   return normalizePlayMode(competition?.playMode) === "singles" ? "personas" : "parejas/equipos";
 }
@@ -2328,6 +2652,62 @@ function formatParticipantCount(competition, count) {
 
 function formatPlayerCount(count) {
   return `${count} ${count === 1 ? "jugador" : "jugadores"}`;
+}
+
+function syncCompetitionFormatFields() {
+  const formatSelect = document.querySelector("#competitionFormat");
+  const groupField = document.querySelector("[data-group-count-field]");
+  const groupInput = document.querySelector("#competitionGroups");
+  const isKnockoutOnly = formatSelect?.value === "knockout";
+
+  groupField?.classList.toggle("hidden", isKnockoutOnly);
+  if (groupInput) groupInput.disabled = isKnockoutOnly;
+}
+
+function syncParticipantForm() {
+  const typeSelect = document.querySelector("#participantType");
+  const individualPhotoField = document.querySelector("[data-individual-photo-field]");
+  const playersField = document.querySelector("[data-participant-players-field]");
+  const playerInputs = [...document.querySelectorAll("[data-player-input]")];
+  const playerPhotoInputs = [...document.querySelectorAll("[name='playerPhotos']")];
+  const isIndividual = typeSelect?.value === "individual";
+
+  individualPhotoField?.classList.toggle("hidden", !isIndividual);
+  playersField?.classList.toggle("hidden", isIndividual);
+  playerInputs.forEach((input) => {
+    input.disabled = isIndividual;
+    input.required = !isIndividual;
+  });
+  playerPhotoInputs.forEach((input) => {
+    input.disabled = isIndividual;
+  });
+}
+
+function updatePhotoInputStatus(input) {
+  const wrapper = input.closest(".photo-upload");
+  const status = wrapper?.querySelector("[data-photo-status]");
+  if (!status) return;
+
+  const fileName = input.files?.[0]?.name || "";
+  status.textContent = fileName ? `Foto adjunta: ${fileName}` : "Sin foto";
+  wrapper.classList.toggle("has-file", Boolean(fileName));
+}
+
+function addPlayerField() {
+  const list = document.querySelector("[data-player-list]");
+  if (!list) return;
+  const index = list.querySelectorAll("[data-player-input]").length + 1;
+  list.insertAdjacentHTML("beforeend", renderPlayerInput(`Jugador ${index}`));
+  syncParticipantForm();
+  applyTranslations(list);
+}
+
+function removePlayerField(button) {
+  const row = button.closest(".player-input-row");
+  const list = document.querySelector("[data-player-list]");
+  if (!row || !list || list.querySelectorAll(".player-input-row").length <= 1) return;
+  row.remove();
+  syncParticipantForm();
 }
 
 function formatDiff(number) {

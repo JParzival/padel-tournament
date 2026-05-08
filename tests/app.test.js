@@ -75,12 +75,12 @@ function createHarness(savedState = createSavedState()) {
 
 function createSavedState() {
   const teams = [
-    { id: "a1", name: "A1", players: [] },
-    { id: "a2", name: "A2", players: [] },
-    { id: "a3", name: "A3", players: [] },
-    { id: "b1", name: "B1", players: [] },
-    { id: "b2", name: "B2", players: [] },
-    { id: "b3", name: "B3", players: [] },
+    { id: "a1", name: "A1", type: "team", players: [] },
+    { id: "a2", name: "A2", type: "team", players: [] },
+    { id: "a3", name: "A3", type: "team", players: [] },
+    { id: "b1", name: "B1", type: "team", players: [] },
+    { id: "b2", name: "B2", type: "team", players: [] },
+    { id: "b3", name: "B3", type: "team", players: [] },
   ];
 
   return {
@@ -309,11 +309,201 @@ test("competition creation stores sport, play mode and stage format", () => {
   assert.equal(app.hasKnockoutStage(competition), true);
 });
 
-test("direct knockout pairings use assigned participants without groups", () => {
+test("participant creation supports individual people and teams", async () => {
+  const app = createHarness({ version: 1, teams: [], competitions: [], savedAt: new Date(0).toISOString() });
+
+  await app.addTeam({
+    get(name) {
+      return { type: "individual", name: "Laura Martin", notes: "Morning" }[name];
+    },
+    getAll() {
+      return [];
+    },
+  });
+
+  await app.addTeam({
+    get(name) {
+      return { type: "team", name: "Smash Team", notes: "" }[name];
+    },
+    getAll(name) {
+      return name === "players" ? ["Ana", "Marta"] : [];
+    },
+  });
+
+  const individual = app.getEligibleParticipantsForCompetition({ playMode: "singles", teamIds: [] })[0];
+  const team = app.getEligibleParticipantsForCompetition({ playMode: "doubles", teamIds: [] })[0];
+
+  assert.equal(individual.type, "individual");
+  assert.deepEqual(toPlain(individual.players.map((player) => player.name)), ["Laura Martin"]);
+  assert.equal(team.type, "team");
+  assert.deepEqual(toPlain(team.players.map((player) => player.name)), ["Ana", "Marta"]);
+});
+
+test("player photos are stored per player and fallback to default avatar", async () => {
+  const app = createHarness({ version: 1, teams: [], competitions: [], savedAt: new Date(0).toISOString() });
+  const photoFile = { size: 10 };
+  app.FileReader = class {
+    readAsDataURL() {
+      this.result = "data:image/png;base64,abc";
+      this.onload();
+    }
+  };
+
+  await app.addTeam({
+    get(name) {
+      return { type: "team", name: "Photo Team", notes: "" }[name];
+    },
+    getAll(name) {
+      if (name === "players") return ["Ana", "Marta"];
+      if (name === "playerPhotos") return [photoFile, null];
+      return [];
+    },
+  });
+
+  const team = app.getEligibleParticipantsForCompetition({ playMode: "doubles", teamIds: [] })[0];
+  assert.equal(team.players[0].photo, "data:image/png;base64,abc");
+  assert.equal(team.players[1].photo, "");
+  assert.match(app.getPlayerPhoto(team.players[1]), /^data:image\/svg\+xml/);
+  assert.match(app.renderTeamCard(team), /player-avatar/);
+});
+
+test("photo upload status shows selected files", () => {
   const app = createHarness();
+  const toggles = [];
+  const status = { textContent: "" };
+  const wrapper = {
+    classList: {
+      toggle(className, enabled) {
+        toggles.push([className, enabled]);
+      },
+    },
+    querySelector(selector) {
+      return selector === "[data-photo-status]" ? status : null;
+    },
+  };
+
+  app.updatePhotoInputStatus({
+    files: [{ name: "avatar.png" }],
+    closest(selector) {
+      return selector === ".photo-upload" ? wrapper : null;
+    },
+  });
+
+  assert.equal(status.textContent, "Foto adjunta: avatar.png");
+  assert.deepEqual(toggles, [["has-file", true]]);
+});
+
+test("group and bracket views render participant avatars", () => {
+  const savedState = createSavedState();
+  savedState.teams[0].players = [{ id: "p1", name: "A1 player", photo: "data:image/png;base64,a1" }];
+  savedState.teams[1].players = [{ id: "p2", name: "A2 player", photo: "" }];
+  savedState.competitions[0].groups = [
+    {
+      id: "group-a",
+      name: "Grupo A",
+      teamIds: ["a1", "a2"],
+      matches: [match("a1", "a2", [{ home: null, away: null }, { home: null, away: null }, { home: null, away: null }])],
+    },
+  ];
+  savedState.competitions[0].knockout.rounds = [
+    {
+      name: "Final",
+      matches: [
+        {
+          id: "final",
+          order: 1,
+          homeTeamId: "a1",
+          awayTeamId: "a2",
+          homeLabel: "Grupo A 1o",
+          awayLabel: "Grupo A 2o",
+          sets: [{ home: null, away: null }, { home: null, away: null }, { home: null, away: null }],
+          winnerTeamId: null,
+        },
+      ],
+    },
+  ];
+  const app = createHarness(savedState);
+
+  assert.match(app.renderGroup(savedState.competitions[0], savedState.competitions[0].groups[0], true), /player-avatar/);
+  assert.match(app.renderBracket(true), /player-avatar/);
+});
+
+test("competition assignment only exposes participants matching the selected play mode", () => {
+  const savedState = createSavedState();
+  savedState.teams.push({ id: "solo", name: "Solo Player", type: "individual", players: [{ id: "p1", name: "Solo Player" }] });
+  savedState.competitions[0].teamIds.push("solo");
+  const app = createHarness(savedState);
+  const competition = app.getCompetition("competition");
+
+  assert.deepEqual(toPlain(app.getAssignedEligibleParticipantIds(competition)), ["a1", "a2", "a3", "b1", "b2", "b3"]);
+
+  competition.playMode = "singles";
+  assert.deepEqual(toPlain(app.getAssignedEligibleParticipantIds(competition)), ["solo"]);
+});
+
+test("participant list can be filtered by type and searched by text", () => {
+  const savedState = createSavedState();
+  savedState.teams.push({
+    id: "solo",
+    name: "Laura Martín",
+    type: "individual",
+    players: [{ id: "p1", name: "Laura Martín" }],
+    notes: "Left side",
+  });
+  savedState.teams.push({
+    id: "smash",
+    name: "Smash Team",
+    type: "team",
+    players: [{ id: "p2", name: "Ana" }, { id: "p3", name: "Marta" }],
+    notes: "",
+  });
+  const app = createHarness(savedState);
+
+  assert.deepEqual(toPlain(app.getFilteredParticipants("individual", "").map((participant) => participant.id)), ["solo"]);
+  assert.deepEqual(toPlain(app.getFilteredParticipants("team", "marta").map((participant) => participant.id)), ["smash"]);
+  assert.deepEqual(toPlain(app.getFilteredParticipants("all", "martin").map((participant) => participant.id)), ["solo"]);
+});
+
+test("knockout-only tournament creation hides and disables group count control", () => {
+  const app = createHarness();
+  const toggles = [];
+  const groupInput = { disabled: false };
+
+  app.document.querySelector = (selector) => {
+    if (selector === "#competitionFormat") return { value: "knockout" };
+    if (selector === "[data-group-count-field]") {
+      return { classList: { toggle(className, enabled) { toggles.push([className, enabled]); } } };
+    }
+    if (selector === "#competitionGroups") return groupInput;
+    return null;
+  };
+
+  app.syncCompetitionFormatFields();
+
+  assert.deepEqual(toggles, [["hidden", true]]);
+  assert.equal(groupInput.disabled, true);
+});
+
+test("direct knockout view handles empty matching participants", () => {
+  const savedState = createSavedState();
+  savedState.competitions[0].format = "knockout";
+  savedState.competitions[0].playMode = "singles";
+  const app = createHarness(savedState);
+
+  assert.doesNotThrow(() => app.renderBracket(false));
+  assert.match(app.renderBracket(false), /Asigna al menos dos participantes/);
+});
+
+test("direct knockout pairings use assigned participants without groups", () => {
+  const savedState = createSavedState();
+  savedState.teams.forEach((team) => {
+    team.type = "individual";
+    team.players = [{ id: `${team.id}-player`, name: team.name }];
+  });
+  savedState.competitions[0].playMode = "singles";
+  const app = createHarness(savedState);
   const competition = app.getCompetition("competition");
   competition.format = "knockout";
-  competition.playMode = "singles";
   competition.groups = [];
 
   const pairings = app.getDirectKnockoutPairings(competition);

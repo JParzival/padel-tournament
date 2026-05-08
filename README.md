@@ -6,8 +6,11 @@ It lets you manage participants, group stages, best-of-three-set match results, 
 
 ## ✨ Features
 
-- Participant registration for people, pairs or teams.
+- Participant registration for individual people, pairs or teams.
+- Dynamic team/player form with one member per field.
+- Optional player photos with a default avatar fallback.
 - Tournament configuration by sport, play mode and competition format.
+- Participant assignment filtered by singles or pairs/team mode.
 - Supported sports: ping-pong, tennis and padel.
 - Supported formats: groups only, knockout only, or groups followed by knockout.
 - Group-stage competition management.
