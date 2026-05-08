@@ -8,7 +8,6 @@ It lets you manage participants, group stages, best-of-three-set match results, 
 
 - Participant registration for individual people, pairs or teams.
 - Dynamic team/player form with one member per field.
-- Optional player photos with a default avatar fallback.
 - Tournament configuration by sport, play mode and competition format.
 - Participant assignment filtered by singles or pairs/team mode.
 - Supported sports: ping-pong, tennis and padel.
@@ -100,7 +99,6 @@ This keeps the application simple and portable, although it also means data is t
 
 ## 🗺️ Recommended Roadmap
 
-- Improvements in consistency of individual vs teams visualization and sign in to tournaments
 - Backend and user authentication.
 - Real database support.
 - Role-based permissions for admins and viewers.
