@@ -72,6 +72,7 @@ const TEXT_TRANSLATIONS_ES_EN = {
     "Equipo o pareja": "Team or pair",
     "Persona individual": "Individual person",
     "Nombre del equipo": "Team name",
+    "Nombre del jugador": "Player name",
     "Nombre del participante": "Participant name",
     "Nombre del equipo o jugador": "Team or player name",
     "Foto del jugador": "Player photo",

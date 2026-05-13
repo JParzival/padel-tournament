@@ -358,6 +358,7 @@ function syncCompetitionFormatFields() {
 
 function syncParticipantForm() {
   const typeSelect = document.querySelector("#participantType");
+  const nameLabel = document.querySelector("[data-participant-name-label]");
   const individualPhotoField = document.querySelector("[data-individual-photo-field]");
   const individualPhotoInput = document.querySelector("[name='individualPhoto']");
   const playersField = document.querySelector("[data-participant-players-field]");
@@ -365,6 +366,7 @@ function syncParticipantForm() {
   const playerPhotoInputs = [...document.querySelectorAll("[name='playerPhotos']")];
   const isIndividual = typeSelect?.value === "individual";
 
+  if (nameLabel) nameLabel.textContent = localizeMessage(isIndividual ? "Nombre del jugador" : "Nombre del equipo");
   individualPhotoField?.classList.toggle("hidden", !isIndividual);
   if (individualPhotoInput) individualPhotoInput.disabled = !isIndividual;
   playersField?.classList.toggle("hidden", isIndividual);

@@ -470,6 +470,36 @@ test("participant form uses the same photo upload UI for individual players", ()
   assert.doesNotMatch(html, /Añade cada integrante por separado/);
 });
 
+test("participant form updates name label for team and individual signup", () => {
+  const app = createHarness();
+  const nameLabel = { textContent: "" };
+  const individualPhotoInput = { disabled: false };
+  const hiddenField = { classList: { toggle() {} } };
+
+  app.document.querySelector = (selector) => {
+    if (selector === "#participantType") return { value: "individual" };
+    if (selector === "[data-participant-name-label]") return nameLabel;
+    if (selector === "[data-individual-photo-field]" || selector === "[data-participant-players-field]") return hiddenField;
+    if (selector === "[name='individualPhoto']") return individualPhotoInput;
+    return null;
+  };
+
+  app.syncParticipantForm();
+  assert.equal(nameLabel.textContent, "Nombre del jugador");
+
+  app.setLanguage("en");
+  app.document.querySelector = (selector) => {
+    if (selector === "#participantType") return { value: "team" };
+    if (selector === "[data-participant-name-label]") return nameLabel;
+    if (selector === "[data-individual-photo-field]" || selector === "[data-participant-players-field]") return hiddenField;
+    if (selector === "[name='individualPhoto']") return individualPhotoInput;
+    return null;
+  };
+
+  app.syncParticipantForm();
+  assert.equal(nameLabel.textContent, "Team name");
+});
+
 test("group and bracket views render participant avatars", () => {
   const savedState = createSavedState();
   savedState.teams[0].players = [{ id: "p1", name: "A1 player", photo: "data:image/png;base64,a1" }];

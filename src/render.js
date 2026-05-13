@@ -171,7 +171,7 @@ function renderTeams() {
             </select>
           </div>
           <div class="field">
-            <label for="teamName">Nombre del equipo o jugador</label>
+            <label for="teamName" data-participant-name-label>Nombre del equipo</label>
             <input id="teamName" name="name" placeholder="Ej. Laura Martín o Smash Center A" required />
           </div>
           <div class="field individual-photo-field hidden" data-individual-photo-field>
